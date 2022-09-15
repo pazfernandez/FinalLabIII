@@ -17,7 +17,8 @@ namespace ProyectoGlobal
             
             Console.WriteLine("Termine: " + verifEc(ecuacion));
 
-            hacerCalculo(ecuacion);
+            //hacerCalculo(ecuacion);
+            hacerCalculo("5+(3*8)-(4+(5/2))");
 
             Console.ReadKey();
 
@@ -136,12 +137,15 @@ namespace ProyectoGlobal
             //Iteracion por toda la ecuacion
             for (int i = 0; i < ecuacion.Length; i++)
             {
+                //Console.WriteLine("index: " + i);
                 //parentesisCerrar = parentesisAbrir;
                 if (ecuacion[i] == '(')
                 {
+                    
                     numeroParentesis++;
                     //Si encuentra un parentesis abierto, lo guarda en un array y de valor va el index
                     prioridadParentesisAbrir[numeroParentesis] = i;
+                    //Console.WriteLine("index de (: " + i);
 
                     //Se declara no encontrado el index del numero del par
                     parNoEncontrado[numeroParentesis] = true;
@@ -149,13 +153,14 @@ namespace ProyectoGlobal
                 }else if (ecuacion[i] == ')')
                 {
                     //Paso por todo el array de pares no encontrados, buscando el ultimo par no completo
-                    for(int j = parNoEncontrado.Length - 1; j >= 0; j--)
+                    for(int j = numeroParentesis; j >= 0; j--)
                     {
                         //Si encuentra uno que no esta completo
                         if (parNoEncontrado[j] == true)
                         {
                             //Guarda en el index del numero del par, la posicion donde esta el parentesis cerrando
                             prioridadParentesisCerrar[j] = i;
+                            //Console.WriteLine("index de ): "+i);
 
                             //Cambia el bool de ese par como falso
                             parNoEncontrado[j] = false;
@@ -164,11 +169,13 @@ namespace ProyectoGlobal
                 }
             }
 
+            //Contar el tamaño que tendra el substring dentro del mayor par de parentesis
+            int substringLenght = prioridadParentesisCerrar[numeroParentesis] - prioridadParentesisAbrir[numeroParentesis] -1;
+
             //Nuevo substring para miniecuaciones
-            string miniEcuacion = ecuacion.Substring(prioridadParentesisAbrir[numeroParentesis], prioridadParentesisCerrar[numeroParentesis]);
+            string miniEcuacion = ecuacion.Substring(prioridadParentesisAbrir[numeroParentesis]+1, substringLenght);
+
             Console.WriteLine(miniEcuacion);
-
-
 
             return 0;
 
