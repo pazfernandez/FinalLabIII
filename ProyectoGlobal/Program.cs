@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,23 +12,28 @@ namespace ProyectoGlobal
     {
         static void Main(string[] args)
         {
+ 
+            Console.WriteLine("Termine: " + verifEc());
 
-            string ecuacion;
-            Console.WriteLine("Escriba la ecuacion");
-            ecuacion = Console.ReadLine();  
-            
-            Console.WriteLine("Termine: " + verifEc(ecuacion));
+
+
 
             Console.ReadKey();
 
         }
 
-        public static string verifEc(string ecuacion)
+
+
+
+        public static string verifEc()                                           
         {
+            string ecuacion;
+            Console.WriteLine("Escriba la ecuacion");
+            ecuacion = Console.ReadLine();
+
             string ec_terminada = "";
             char[] mis_letras = {'1','2','3','4','5','6','7','8','9','0','+','-','*','/','(',')'};
             char[] letras;
-            Boolean err = false;
 
             letras = ecuacion.ToCharArray();
 
@@ -38,82 +45,133 @@ namespace ProyectoGlobal
                     {
                         ec_terminada += let;
                     }
-                    else
-                    {
-                        err = true;
-                    }
+                    
                 }
             }
 
             ec_terminada = verifParentesis(ec_terminada);
 
-            /*
-            if (err == true)
+            if(ecuacion != ec_terminada)
             {
-                char car;
-                Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion, van a ser eliminados");
-                Console.WriteLine("La ecuacion quedará asi, esta de acuerdo? Y = SI, N = NO");
-
-                do
-                {
-
-                } while ();
-                
-
+                veriFinal(ec_terminada);
             }
-            */
+
+            
             return ec_terminada;
 
         }
 
-        public static string verifParentesis(string ec)
+        public static string verifParentesis(string ec)                                  //Verifica la apertura y cierre de los parentesis en la ecuacion 
         {
 
             Boolean pAbre = false;
             Boolean pCierra = false;
             string resultadoEc = "";
+            int contA = 0;
+            int contB = 0;
 
             for (int i = 0; i < ec.Length; i++)
             {
-
-                Boolean agregoCarac = true;
-
-                if(ec[i] == '('){
-
-                    if (pAbre == true && pCierra == false)
-                    {
-                        agregoCarac = false;
-                    }
-
-                    pAbre = true;
-
-                }else if (ec[i] == ')')
+                if (ec[i] == '(')
                 {
+                    contA++;
 
-                    pCierra = true;
-
-                    if(pCierra == true && pAbre == false)
-                    {
-                        agregoCarac=false;
-                    }
+                }
+                else if (ec[i] == ')')
+                {
+                    contB++;
 
                 }
 
-                if(agregoCarac == true)
-                {
-                    resultadoEc += ec[i];
-                }
-
-                if(pAbre == true && pCierra == true)
-                {
-                    pAbre = false;
-                    pCierra = false;
-                }
-                
             }
 
+            if (contA != contB)
+            {
+
+                Console.WriteLine("---ENTRA SON DISTINTOS---");
+
+                for (int i = 0; i < ec.Length; i++)
+                {
+
+                    Boolean agregoCarac = true;
+
+                    if (ec[i] == '(')
+                    {
+
+                        if (pAbre == true && pCierra == false)
+                        {
+                            agregoCarac = false;
+                        }
+                        
+                        pAbre = true;
+
+                    }
+                    else if (ec[i] == ')')
+                    {
+
+                        pCierra = true;
+                        
+                        if (pCierra == true && pAbre == false)
+                        {
+                            agregoCarac = false;
+                        }
+
+                    }
+
+                    if (agregoCarac == true)
+                    {
+                        resultadoEc += ec[i];
+                    }
+
+                    if (pAbre == true && pCierra == true)
+                    {
+                        pAbre = false;
+                        pCierra = false;
+                    }
+
+                }
+
+            }
+            else
+            {
+                resultadoEc = ec;
+            }
+
+            //Console.WriteLine("Primera vez " + resultadoEc);
 
             return resultadoEc;
+            
+        }
+
+        public static string veriFinal(string ec)
+        {
+
+            string car;
+            string result = null;
+            Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion, van a ser eliminados");
+            Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
+            Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
+            
+            do
+            {
+                car = Console.ReadLine().ToUpper();
+                if (car == "Y")
+                {
+                    Console.WriteLine("Calculando...");                                                         //<----- ENTRAN LOS CALCULOS
+                    result = ec;
+                }
+                else if(car == "N")
+                {
+                    result = verifEc();                         
+                }
+                else
+                {
+                    Console.WriteLine("No ingresó ni 'Y' ni 'N', intente de nuevo");
+                }
+
+            } while (car != "Y" && car != "N");
+
+            return result;
         }
 
 
