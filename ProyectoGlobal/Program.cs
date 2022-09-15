@@ -17,8 +17,8 @@ namespace ProyectoGlobal
             
             Console.WriteLine("Termine: " + verifEc(ecuacion));
 
-            //hacerCalculo(ecuacion);
-            hacerCalculo("5+(3*8)-(4+(5/2))");
+            hacerCalculo(ecuacion);
+            
 
             Console.ReadKey();
 
@@ -179,6 +179,16 @@ namespace ProyectoGlobal
 
             return 0;
 
+        }
+
+        public static string realizarEcSub(string subEcuacion)
+        {
+            string resultado;
+
+
+
+
+            return "a";
         }
 
     }
