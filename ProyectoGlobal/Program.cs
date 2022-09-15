@@ -131,6 +131,7 @@ namespace ProyectoGlobal
             }
         }
 
+<<<<<<< Updated upstream
         public static string devolverString20(int num)
         {
             if (num == 0)
@@ -145,6 +146,11 @@ namespace ProyectoGlobal
             {
                 return "jejejje";
             }
+=======
+        public static Boolean falopa()
+        {
+            return true;
+>>>>>>> Stashed changes
         }
 
     }
