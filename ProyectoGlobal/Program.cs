@@ -117,5 +117,47 @@ namespace ProyectoGlobal
         }
 
 
+        public static float hacerCalculo(string ecuacion)
+        {
+            float resultado;
+
+            //Creacion de dos arrays para indicar las posiciones de los pares de parentesis relacionados
+            int[] prioridadParentesisAbrir = new int[ecuacion.Length/2];
+            int[] prioridadParentesisCerrar = new int[ecuacion.Length / 2];
+
+            //Array indicando si el numero de parentesis abierto ya tiene su par encontrado
+            bool[] parNoEncontrado = new bool[ecuacion.Length / 2];
+
+            //Contadores de parentesis
+            int parentesisAbrir = -1;
+
+            //Iteracion por toda la ecuacion
+            for (int i = 0; i < ecuacion.Length; i++)
+            {
+                //parentesisCerrar = parentesisAbrir;
+                if (ecuacion[i] == '(')
+                {
+                    parentesisAbrir++;
+                    //Si encuentra un parentesis abierto, lo guarda en un array y de valor va el index
+                    prioridadParentesisAbrir[parentesisAbrir] = i;
+
+                    //Se declara no encontrado el index del numero del par
+                    parNoEncontrado[parentesisAbrir] = true;
+
+                }else if (ecuacion[i] == ')')
+                {
+
+                }
+            }
+
+
+
+
+
+
+            return resultado;
+
+        }
+
     }
 }
