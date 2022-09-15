@@ -18,8 +18,8 @@ namespace ProyectoGlobal
 
 
 
-            //hacerCalculo(ecuacion);
-            hacerCalculo("5+(3*8)-(4+(5/2))");
+            
+            
 
             Console.ReadKey();
 
@@ -237,6 +237,16 @@ namespace ProyectoGlobal
 
             return 0;
 
+        }
+
+        public static string realizarEcSub(string subEcuacion)
+        {
+            string resultado;
+
+
+
+
+            return "a";
         }
 
     }
