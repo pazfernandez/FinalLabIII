@@ -241,12 +241,12 @@ namespace ProyectoGlobal
 
         public static string realizarEcSub(string subEcuacion)
         {
-            string resultado;
+            string resultado = "Holi <3";
 
 
 
 
-            return "a";
+            return resultado;
         }
 
     }
