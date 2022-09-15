@@ -131,5 +131,21 @@ namespace ProyectoGlobal
             }
         }
 
+        public static string devolverString20(int num)
+        {
+            if (num == 0)
+            {
+                return "todas";
+            }
+            else if (num == 1)
+            {
+                return "putas";
+            }
+            else
+            {
+                return "jejejje";
+            }
+        }
+
     }
 }
