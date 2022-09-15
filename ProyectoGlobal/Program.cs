@@ -116,42 +116,6 @@ namespace ProyectoGlobal
             return resultadoEc;
         }
 
-        public static string devolverString(int num)
-        {
-            if(num == 0)
-            {
-                return "todas";
-            }
-            else if(num == 1){
-                return "putas";
-            }
-            else
-            {
-                return "jejejje";
-            }
-        }
-
-<<<<<<< Updated upstream
-        public static string devolverString20(int num)
-        {
-            if (num == 0)
-            {
-                return "todas";
-            }
-            else if (num == 1)
-            {
-                return "putas";
-            }
-            else
-            {
-                return "jejejje";
-            }
-=======
-        public static Boolean falopa()
-        {
-            return true;
->>>>>>> Stashed changes
-        }
 
     }
 }
