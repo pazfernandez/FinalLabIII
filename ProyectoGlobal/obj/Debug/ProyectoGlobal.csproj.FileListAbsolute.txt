@@ -6,3 +6,11 @@ D:\Facultad\Semestre_3\Laboratorio_3\Global\ProyectoGlobal\ProyectoGlobal\obj\De
 D:\Facultad\Semestre_3\Laboratorio_3\Global\ProyectoGlobal\ProyectoGlobal\obj\Debug\ProyectoGlobal.csproj.CoreCompileInputs.cache
 D:\Facultad\Semestre_3\Laboratorio_3\Global\ProyectoGlobal\ProyectoGlobal\obj\Debug\ProyectoGlobal.exe
 D:\Facultad\Semestre_3\Laboratorio_3\Global\ProyectoGlobal\ProyectoGlobal\obj\Debug\ProyectoGlobal.pdb
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\bin\Debug\ProyectoGlobal.exe.config
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\bin\Debug\ProyectoGlobal.exe
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\bin\Debug\ProyectoGlobal.pdb
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\obj\Debug\ProyectoGlobal.csproj.AssemblyReference.cache
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\obj\Debug\ProyectoGlobal.csproj.SuggestedBindingRedirects.cache
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\obj\Debug\ProyectoGlobal.csproj.CoreCompileInputs.cache
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\obj\Debug\ProyectoGlobal.exe
+C:\Users\LNSoftware\Documents\GitHub\FinalLabIII\ProyectoGlobal\obj\Debug\ProyectoGlobal.pdb
