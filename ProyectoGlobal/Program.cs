@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security;
@@ -241,13 +242,44 @@ namespace ProyectoGlobal
 
         public static string realizarEcSub(string subEcuacion)
         {
-            string resultado = "Holi <3";
+            string resultado;
+            int posicionOperacionAnterior = 0;
+            int[] operacionesONumeros = new int[subEcuacion.Length];
 
 
 
+            for (int i = 0; i < subEcuacion.Length; i++)
+            {
 
-            return resultado;
+                if (subEcuacion[i] == '+')
+                {
+                    operacionesONumeros[i] = 1;
+
+                }
+                else if (subEcuacion[i] == '-')
+                {
+                    operacionesONumeros[i] = 2;
+                }
+                else if (subEcuacion[i] == '*')
+                {
+                    operacionesONumeros[i] = 3;
+
+                }
+                else if (subEcuacion[i] == '/')
+                {
+                    operacionesONumeros[i] = 4;
+                }
+                else
+                {
+                    operacionesONumeros[i] = 0;
+                }
+
+
+
+            }
         }
+                
+        
 
     }
 }
