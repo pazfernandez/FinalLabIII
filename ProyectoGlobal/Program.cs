@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Security;
 using System.Text;
@@ -15,6 +16,7 @@ namespace ProyectoGlobal
         {
  
             Console.WriteLine("Termine: " + verifEc());
+            realizarEcSub("2+6");
 
 
 
@@ -243,40 +245,68 @@ namespace ProyectoGlobal
         public static string realizarEcSub(string subEcuacion)
         {
             string resultado;
-            int posicionOperacionAnterior = 0;
-            int[] operacionesONumeros = new int[subEcuacion.Length];
-
-
-
-            for (int i = 0; i < subEcuacion.Length; i++)
+            int posicionOperacionActual = 0;
+            bool operacionEncontrada = false;
+            char[] operacion = {'*', '/', '+', '-'};
+            
+            //Bucle para pasar por cada una de las operaciones
+            for(int j = 0; j < 4; j++)
             {
+                //Contador de numeros antes y despues de la operacion
+                int contadorNumeros = 0;
+                int numerosAntes = 0;
 
-                if (subEcuacion[i] == '+')
+                //Pasa por cada char de la ecuacion
+                for (int i = 0; i < subEcuacion.Length; i++)
                 {
-                    operacionesONumeros[i] = 1;
+                    //Si el caracter es digito, se lo agrega en el contador
+                    if (Char.IsDigit(subEcuacion, i))
+                    {
+                        contadorNumeros++;
+                    }else if (subEcuacion[i] == operacion[j] && !operacionEncontrada) //Si el caracter es igual a la operacion con la que se esta trabajando
+                    {
+                        posicionOperacionActual = i; //Guardar la posicion de la operacion
+                        operacionEncontrada = true;  //Marcar la operacion como encontrada
+                        numerosAntes = contadorNumeros;
+                        contadorNumeros = 0;
+                    }
+                    else if(operacionEncontrada && !Char.IsDigit(subEcuacion, i))
+                    {
+                        int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                        int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
+                        int resultadoOperacion = 0;
+
+                        switch (j)
+                        {
+                            case 0:
+                                resultadoOperacion = numeroAnterior * numeroSiguiente;
+                                break;
+                            case 1:
+                                resultadoOperacion = numeroAnterior / numeroSiguiente;
+                                break;
+                            case 2:
+                                resultadoOperacion = numeroAnterior + numeroSiguiente;
+                                break;
+                            case 3:
+                                resultadoOperacion = numeroAnterior - numeroSiguiente;
+                                break;
+                        }
+
+                        Console.WriteLine(resultadoOperacion);
+                    }
+                    else
+                    {
+                        contadorNumeros = 0;
+                    }
+
+
+
 
                 }
-                else if (subEcuacion[i] == '-')
-                {
-                    operacionesONumeros[i] = 2;
-                }
-                else if (subEcuacion[i] == '*')
-                {
-                    operacionesONumeros[i] = 3;
-
-                }
-                else if (subEcuacion[i] == '/')
-                {
-                    operacionesONumeros[i] = 4;
-                }
-                else
-                {
-                    operacionesONumeros[i] = 0;
-                }
-
-
-
             }
+
+           
+            return "hola";
         }
                 
         
