@@ -16,7 +16,7 @@ namespace ProyectoGlobal
         {
  
             Console.WriteLine("Termine: " + verifEc());
-            realizarEcSub("2+6");
+            realizarEcSub("2+6+2+4+156");
 
 
 
@@ -270,8 +270,34 @@ namespace ProyectoGlobal
                         numerosAntes = contadorNumeros;
                         contadorNumeros = 0;
                     }
+                    else if (operacionEncontrada && i == subEcuacion.Length -1)
+                    {
+                        Console.WriteLine(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                        int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                        int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
+                        int resultadoOperacion = 0;
+
+                        switch (j)
+                        {
+                            case 0:
+                                resultadoOperacion = numeroAnterior * numeroSiguiente;
+                                break;
+                            case 1:
+                                resultadoOperacion = numeroAnterior / numeroSiguiente;
+                                break;
+                            case 2:
+                                resultadoOperacion = numeroAnterior + numeroSiguiente;
+                                break;
+                            case 3:
+                                resultadoOperacion = numeroAnterior - numeroSiguiente;
+                                break;
+                        }
+
+                        Console.WriteLine(resultadoOperacion);
+                    }
                     else if(operacionEncontrada && !Char.IsDigit(subEcuacion, i))
                     {
+                        Console.WriteLine(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
                         int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
                         int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
                         int resultadoOperacion = 0;
