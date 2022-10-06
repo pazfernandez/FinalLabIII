@@ -19,13 +19,13 @@ namespace ProyectoGlobal
             //Console.WriteLine(asd.Length);
 
             Console.WriteLine("Termine: " + verifEc());
-            //realizarEcSub("2+6+2+4+156");
+            realizarEcSubOperaciones("2+6+2+4+156");
 
 
 
 
-            
-            
+
+
 
             Console.ReadKey();
 
@@ -34,14 +34,14 @@ namespace ProyectoGlobal
 
 
 
-        public static string verifEc()                                           
+        public static string verifEc()
         {
             string ecuacion;
             Console.WriteLine("Escriba la ecuacion");
             ecuacion = Console.ReadLine();
 
             string ec_terminada = "";
-            char[] mis_letras = {'1','2','3','4','5','6','7','8','9','0','+','-','*','/','(',')'};
+            char[] mis_letras = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', '(', ')' };
             char[] letras;
 
             letras = ecuacion.ToCharArray();
@@ -54,18 +54,18 @@ namespace ProyectoGlobal
                     {
                         ec_terminada += let;
                     }
-                    
+
                 }
             }
 
             ec_terminada = verifParentesis(ec_terminada);
 
-            if(ecuacion != ec_terminada)
+            if (ecuacion != ec_terminada)
             {
                 veriFinal(ec_terminada);
             }
 
-            
+
             return ec_terminada;
 
         }
@@ -73,8 +73,8 @@ namespace ProyectoGlobal
         public static string verifParentesis(string ec)                                  //Verifica la apertura y cierre de los parentesis en la ecuacion 
         {
 
-            char[] mis_num = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
-            char[] mis_op = {'+', '-', '*', '/' };
+            char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+            char[] mis_op = { '+', '-', '*', '/' };
 
             Boolean pAbre = false;
             Boolean pCierra = false;
@@ -97,13 +97,13 @@ namespace ProyectoGlobal
                         {
                             if (ec[i - 1] == mis_op[j])
                             {
-                                    agregoCarac = true;
+                                agregoCarac = true;
                             }
-                            
+
                         }
                     }
-                        
-                    if(i < ec.Length - 1)
+
+                    if (i < ec.Length - 1)
                     {
                         for (int j = 0; j < mis_num.Length; j++)
                         {
@@ -113,12 +113,12 @@ namespace ProyectoGlobal
                             }
                         }
                     }
-                    
-                    if(agregoCarac == true)
+
+                    if (agregoCarac == true)
                     {
                         contA++;
                     }
-                    
+
 
                 }
                 else if (ec[i] == ')')
@@ -159,7 +159,7 @@ namespace ProyectoGlobal
                     if (contB > contA)
                     {
                         agregoCarac = false;
-                        if(contB > 0)
+                        if (contB > 0)
                         {
                             contB--;
                         }
@@ -178,10 +178,10 @@ namespace ProyectoGlobal
             Console.WriteLine("contA = " + contA + " --- contB = " + contB);             //<---TRAZA 
             Console.WriteLine("ASI QUEDAAAAAAAA: " + resultadoEc);
 
-            
+
 
             return resultadoEc;
-            
+
         }
 
         public static string veriFinal(string ec)
@@ -192,7 +192,7 @@ namespace ProyectoGlobal
             Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados");
             Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
             Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
-            
+
             do
             {
                 car = Console.ReadLine().ToUpper();
@@ -201,9 +201,9 @@ namespace ProyectoGlobal
                     Console.WriteLine("Calculando...");                                                         //<----- ENTRAN LOS CALCULOS
                     result = ec;
                 }
-                else if(car == "N")
+                else if (car == "N")
                 {
-                    result = verifEc();                         
+                    result = verifEc();
                 }
                 else
                 {
@@ -221,7 +221,7 @@ namespace ProyectoGlobal
             float resultado;
 
             //Creacion de dos arrays para indicar las posiciones de los pares de parentesis relacionados
-            int[] prioridadParentesisAbrir = new int[ecuacion.Length/2];
+            int[] prioridadParentesisAbrir = new int[ecuacion.Length / 2];
             int[] prioridadParentesisCerrar = new int[ecuacion.Length / 2];
 
             //Array indicando si el numero de parentesis abierto ya tiene su par encontrado
@@ -237,7 +237,7 @@ namespace ProyectoGlobal
                 //parentesisCerrar = parentesisAbrir;
                 if (ecuacion[i] == '(')
                 {
-                    
+
                     numeroParentesis++;
                     //Si encuentra un parentesis abierto, lo guarda en un array y de valor va el index
                     prioridadParentesisAbrir[numeroParentesis] = i;
@@ -246,10 +246,11 @@ namespace ProyectoGlobal
                     //Se declara no encontrado el index del numero del par
                     parNoEncontrado[numeroParentesis] = true;
 
-                }else if (ecuacion[i] == ')')
+                }
+                else if (ecuacion[i] == ')')
                 {
                     //Paso por todo el array de pares no encontrados, buscando el ultimo par no completo
-                    for(int j = numeroParentesis; j >= 0; j--)
+                    for (int j = numeroParentesis; j >= 0; j--)
                     {
                         //Si encuentra uno que no esta completo
                         if (parNoEncontrado[j] == true)
@@ -266,10 +267,10 @@ namespace ProyectoGlobal
             }
 
             //Contar el tamaño que tendra el substring dentro del mayor par de parentesis
-            int substringLenght = prioridadParentesisCerrar[numeroParentesis] - prioridadParentesisAbrir[numeroParentesis] -1;
+            int substringLenght = prioridadParentesisCerrar[numeroParentesis] - prioridadParentesisAbrir[numeroParentesis] - 1;
 
             //Nuevo substring para miniecuaciones
-            string miniEcuacion = ecuacion.Substring(prioridadParentesisAbrir[numeroParentesis]+1, substringLenght);
+            string miniEcuacion = ecuacion.Substring(prioridadParentesisAbrir[numeroParentesis] + 1, substringLenght);
 
             Console.WriteLine(miniEcuacion);
 
@@ -277,100 +278,140 @@ namespace ProyectoGlobal
 
         }
 
-        public static string realizarEcSub(string subEcuacion)
+        public static String realizarEcSubOperaciones(String subEcuacion)
         {
-            string resultado;
+            //Bucle para pasar por cada una de las operaciones
+
+            for (int j = 0; j < 4; j++)
+            {
+                subEcuacion = realizarEcSub(subEcuacion, j);
+
+                Console.WriteLine(subEcuacion);
+            }
+            return "hola";
+        }
+
+        public static string realizarEcSub(string subEcuacion, int numeroOP)
+        {
+            string resultado, operacionRealizada, resultadoFinal;
             int posicionOperacionActual = 0;
             bool operacionEncontrada = false;
-            char[] operacion = {'*', '/', '+', '-'};
-            
-            //Bucle para pasar por cada una de las operaciones
-            for(int j = 0; j < 4; j++)
+            char[] operacion = { '*', '/', '+', '-' };
+            Console.WriteLine(subEcuacion + " traza principio");
+
+            //Contador de numeros antes y despues de la operacion
+            int contadorNumeros = 0;
+            int numerosAntes = 0;
+
+            //Pasa por cada char de la ecuacion
+            for (int i = 0; i < subEcuacion.Length; i++)
             {
-                //Contador de numeros antes y despues de la operacion
-                int contadorNumeros = 0;
-                int numerosAntes = 0;
-
-                //Pasa por cada char de la ecuacion
-                for (int i = 0; i < subEcuacion.Length; i++)
+                Console.WriteLine(subEcuacion + " traza for");
+                //Si el caracter es digito, se lo agrega en el contador
+                if (Char.IsDigit(subEcuacion, i))
                 {
-                    //Si el caracter es digito, se lo agrega en el contador
-                    if (Char.IsDigit(subEcuacion, i))
+                    Console.WriteLine(subEcuacion + " traza primer if");
+                    contadorNumeros++;
+                }
+                else if (subEcuacion[i] == operacion[numeroOP] && !operacionEncontrada) //Si el caracter es igual a la operacion con la que se esta trabajando
+                {
+                    Console.WriteLine(subEcuacion + " traza  if 2");
+                    posicionOperacionActual = i; //Guardar la posicion de la operacion
+                    operacionEncontrada = true;  //Marcar la operacion como encontrada
+                    numerosAntes = contadorNumeros;
+                    contadorNumeros = 0;
+                }
+                else if (operacionEncontrada && (i == subEcuacion.Length - 1 || subEcuacion[i] == '\n'))
+                {
+                    Console.WriteLine(subEcuacion + " traza if 3");
+                    //Console.WriteLine(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                    int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                    int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
+                    int resultadoOperacion = 0;
+
+                    //Console.WriteLine(numeroAnterior + " anterior-ultimo");
+                    //Console.WriteLine(numeroSiguiente + " siguiente-ultimo");
+
+                    switch (numeroOP)
                     {
-                        contadorNumeros++;
-                    }else if (subEcuacion[i] == operacion[j] && !operacionEncontrada) //Si el caracter es igual a la operacion con la que se esta trabajando
-                    {
-                        posicionOperacionActual = i; //Guardar la posicion de la operacion
-                        operacionEncontrada = true;  //Marcar la operacion como encontrada
-                        numerosAntes = contadorNumeros;
-                        contadorNumeros = 0;
+                        case 0:
+                            resultadoOperacion = numeroAnterior * numeroSiguiente;
+                            return Convert.ToString(resultadoOperacion);
+                            break;
+                        case 1:
+                            resultadoOperacion = numeroAnterior / numeroSiguiente;
+                            return Convert.ToString(resultadoOperacion);
+                            break;
+                        case 2:
+                            resultadoOperacion = numeroAnterior + numeroSiguiente;
+                            Console.WriteLine(resultadoOperacion + " Operacion Realizada SUMA");
+                            return Convert.ToString(resultadoOperacion);
+                            break;
+                        case 3:
+                            resultadoOperacion = numeroAnterior - numeroSiguiente;
+                            return Convert.ToString(resultadoOperacion);
+                            break;
                     }
-                    else if (operacionEncontrada && i == subEcuacion.Length -1)
+
+                }
+                else if (operacionEncontrada && !Char.IsDigit(subEcuacion, i) && subEcuacion[i] != '\n')
+                {
+                    Console.WriteLine(subEcuacion + " subecuacion " + subEcuacion[i] + " index " + i + " i");
+
+                    Console.WriteLine(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                    int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                    int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
+                    int resultadoOperacion = 0;
+
+                    //Console.WriteLine(numeroAnterior + " anterior");
+                    //Console.WriteLine(numeroSiguiente + " siguiente");
+
+                    switch (numeroOP)
                     {
-                        Console.WriteLine(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                        int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                        int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
-                        int resultadoOperacion = 0;
-
-                        switch (j)
-                        {
-                            case 0:
-                                resultadoOperacion = numeroAnterior * numeroSiguiente;
-                                break;
-                            case 1:
-                                resultadoOperacion = numeroAnterior / numeroSiguiente;
-                                break;
-                            case 2:
-                                resultadoOperacion = numeroAnterior + numeroSiguiente;
-                                break;
-                            case 3:
-                                resultadoOperacion = numeroAnterior - numeroSiguiente;
-                                break;
-                        }
-
-                        Console.WriteLine(resultadoOperacion);
+                        case 0:
+                            resultadoOperacion = numeroAnterior * numeroSiguiente;
+                            break;
+                        case 1:
+                            resultadoOperacion = numeroAnterior / numeroSiguiente;
+                            break;
+                        case 2:
+                            resultadoOperacion = numeroAnterior + numeroSiguiente;
+                            break;
+                        case 3:
+                            resultadoOperacion = numeroAnterior - numeroSiguiente;
+                            break;
                     }
-                    else if(operacionEncontrada && !Char.IsDigit(subEcuacion, i))
+                    // Console.WriteLine(resultadoOperacion+" Operacion Realizada");
+                    // desde 0 hasta el principio de la operacion, el resultado operacion y lo que de la operacion
+
+                    if (posicionOperacionActual - numerosAntes == 0)
                     {
-                        Console.WriteLine(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                        int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                        int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
-                        int resultadoOperacion = 0;
-
-                        switch (j)
-                        {
-                            case 0:
-                                resultadoOperacion = numeroAnterior * numeroSiguiente;
-                                break;
-                            case 1:
-                                resultadoOperacion = numeroAnterior / numeroSiguiente;
-                                break;
-                            case 2:
-                                resultadoOperacion = numeroAnterior + numeroSiguiente;
-                                break;
-                            case 3:
-                                resultadoOperacion = numeroAnterior - numeroSiguiente;
-                                break;
-                        }
-
-                        Console.WriteLine(resultadoOperacion);
+                        operacionRealizada = resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 1);
                     }
                     else
                     {
-                        contadorNumeros = 0;
+                        operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2);
                     }
-
-
-
-
+                    //Console.WriteLine(operacionRealizada + " recursividad");
+                    resultadoFinal = realizarEcSub(operacionRealizada, numeroOP);
+                    return resultadoFinal;
                 }
+                else
+                {
+                    contadorNumeros = 0;
+                }
+
+
+
+
             }
 
-           
-            return "hola";
+
+            return subEcuacion;
         }
-                
-        
+
+
+
 
     }
 }
