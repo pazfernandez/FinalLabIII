@@ -14,9 +14,12 @@ namespace ProyectoGlobal
     {
         static void Main(string[] args)
         {
- 
+
+            //string asd = "asd";
+            //Console.WriteLine(asd.Length);
+
             Console.WriteLine("Termine: " + verifEc());
-            realizarEcSub("2+6+2+4+156");
+            //realizarEcSub("2+6+2+4+156");
 
 
 
@@ -70,6 +73,9 @@ namespace ProyectoGlobal
         public static string verifParentesis(string ec)                                  //Verifica la apertura y cierre de los parentesis en la ecuacion 
         {
 
+            char[] mis_num = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+            char[] mis_op = {'+', '-', '*', '/' };
+
             Boolean pAbre = false;
             Boolean pCierra = false;
             string resultadoEc = "";
@@ -78,72 +84,101 @@ namespace ProyectoGlobal
 
             for (int i = 0; i < ec.Length; i++)
             {
+
+                Boolean agregoCarac = true;
+
                 if (ec[i] == '(')
                 {
-                    contA++;
+                    agregoCarac = false;
+
+                    if (i >= 1)
+                    {
+                        for (int j = 0; j < mis_op.Length; j++)
+                        {
+                            if (ec[i - 1] == mis_op[j])
+                            {
+                                    agregoCarac = true;
+                            }
+                            
+                        }
+                    }
+                        
+                    if(i < ec.Length - 1)
+                    {
+                        for (int j = 0; j < mis_num.Length; j++)
+                        {
+                            if (ec[i + 1] == mis_num[j])
+                            {
+                                agregoCarac = true;
+                            }
+                        }
+                    }
+                    
+                    if(agregoCarac == true)
+                    {
+                        contA++;
+                    }
+                    
 
                 }
                 else if (ec[i] == ')')
                 {
-                    contB++;
+                    agregoCarac = false;
 
-                }
-
-            }
-
-            if (contA != contB)
-            {
-
-                Console.WriteLine("---ENTRA SON DISTINTOS---");
-
-                for (int i = 0; i < ec.Length; i++)
-                {
-
-                    Boolean agregoCarac = true;
-
-                    if (ec[i] == '(')
+                    if (i >= 1)
                     {
-
-                        if (pAbre == true && pCierra == false)
+                        for (int j = 0; j < mis_num.Length; j++)
                         {
-                            agregoCarac = false;
-                        }
-                        
-                        pAbre = true;
 
+                            if (ec[i - 1] == mis_num[j])
+                            {
+                                agregoCarac = true;
+                            }
+
+                        }
                     }
-                    else if (ec[i] == ')')
+
+                    if (i < ec.Length - 1)
                     {
-
-                        pCierra = true;
-                        
-                        if (pCierra == true && pAbre == false)
+                        for (int j = 0; j < mis_op.Length; j++)
                         {
-                            agregoCarac = false;
+                            if (ec[i + 1] == mis_op[j])
+                            {
+                                agregoCarac = true;
+                            }
                         }
-
                     }
+
 
                     if (agregoCarac == true)
                     {
-                        resultadoEc += ec[i];
+                        contB++;
                     }
 
-                    if (pAbre == true && pCierra == true)
+
+                    if (contB > contA)
                     {
-                        pAbre = false;
-                        pCierra = false;
+                        agregoCarac = false;
+                        if(contB > 0)
+                        {
+                            contB--;
+                        }
+
                     }
 
                 }
 
-            }
-            else
-            {
-                resultadoEc = ec;
+                if (agregoCarac == true)
+                {
+                    resultadoEc += ec[i];
+                }
+
             }
 
-            //Console.WriteLine("Primera vez " + resultadoEc);
+            Console.WriteLine("contA = " + contA + " --- contB = " + contB);             //<---TRAZA 
+            Console.WriteLine("ASI QUEDAAAAAAAA: " + resultadoEc);
+
+            
 
             return resultadoEc;
             
@@ -154,7 +189,7 @@ namespace ProyectoGlobal
 
             string car;
             string result = null;
-            Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion, van a ser eliminados");
+            Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados");
             Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
             Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
             
