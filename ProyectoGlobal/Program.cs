@@ -76,8 +76,6 @@ namespace ProyectoGlobal
             char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
             char[] mis_op = { '+', '-', '*', '/' };
 
-            Boolean pAbre = false;
-            Boolean pCierra = false;
             string resultadoEc = "";
             int contA = 0;
             int contB = 0;
@@ -130,7 +128,7 @@ namespace ProyectoGlobal
                         for (int j = 0; j < mis_num.Length; j++)
                         {
 
-                            if (ec[i - 1] == mis_num[j])
+                            if (ec[i - 1] == mis_num[j] || (ec[i - 1] == ')' && contB < contA))
                             {
                                 agregoCarac = true;
                             }
@@ -178,11 +176,10 @@ namespace ProyectoGlobal
             Console.WriteLine("contA = " + contA + " --- contB = " + contB);             //<---TRAZA 
             Console.WriteLine("ASI QUEDAAAAAAAA: " + resultadoEc);
 
-
-
             return resultadoEc;
 
         }
+
 
         public static string veriFinal(string ec)
         {
