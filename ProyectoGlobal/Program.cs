@@ -19,7 +19,7 @@ namespace ProyectoGlobal
             //Console.WriteLine(asd.Length);
 
             Console.WriteLine("Termine: " + verifEc());
-            realizarEcSubOperaciones("2+6+2+4+156");
+            //realizarEcSubOperaciones("2+6+2+4+156");
 
 
 
@@ -57,14 +57,23 @@ namespace ProyectoGlobal
 
                 }
             }
+            Console.WriteLine("ASI QUEDA EN VERIF CARACTERES: " + ec_terminada);
+
+            Boolean verifPara;
+            Boolean verifNeg;
 
             ec_terminada = verifParentesis(ec_terminada);
+            verifPara = contadoresDesiguales(ec_terminada);
 
-            if (ecuacion != ec_terminada)
+            string ec_parentesis = ec_terminada;
+
+            ec_terminada = veriNumNegativo(ec_terminada);
+            verifNeg = entraVerifNegativo(ec_parentesis, ec_terminada);
+
+            if (ecuacion != ec_terminada || verifPara == true)
             {
-                veriFinal(ec_terminada);
+                return ec_terminada = veriFinal(ec_terminada, verifPara, verifNeg);
             }
-
 
             return ec_terminada;
 
@@ -73,8 +82,8 @@ namespace ProyectoGlobal
         public static string verifParentesis(string ec)                                  //Verifica la apertura y cierre de los parentesis en la ecuacion 
         {
 
-            char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
-            char[] mis_op = { '+', '-', '*', '/' };
+            char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', };
+            char[] mis_op = { '+', '-', '*', '/', '(' };
 
             string resultadoEc = "";
             int contA = 0;
@@ -174,25 +183,187 @@ namespace ProyectoGlobal
             }
 
             Console.WriteLine("contA = " + contA + " --- contB = " + contB);             //<---TRAZA 
-            Console.WriteLine("ASI QUEDAAAAAAAA: " + resultadoEc);
+            Console.WriteLine("ASI EN VERIFICACION PARENTESIS: " + resultadoEc);
 
             return resultadoEc;
 
         }
 
+        public static Boolean contadoresDesiguales(string ec)
+        {
+            int contA = 0;
+            int contB = 0;
 
-        public static string veriFinal(string ec)
+            for (int i = 0; i < ec.Length; i++)
+            {
+                if (ec[i] == '(')
+                {
+                    contA++;
+                }else if(ec[i] == ')')
+                {
+                    contB++;
+                }
+            }
+
+            if(contA == contB)
+            {
+                return false;
+            }else
+            {
+                return true;
+            }
+
+        }
+
+        public static Boolean entraVerifNegativo(string ec, string ec_terminada)
+        {
+            
+            if(ec.Length != ec_terminada.Length)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        public static string veriNumNegativo(string ec)
+        {
+
+            char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+            //char[] mis_verif = { '+', '-', '*', '/', '('};
+            char[] mis_verif = { '+', '-', '*', '/'};
+
+            string resultadoEc = "";
+            Boolean tengoQueCerrar = false;
+
+            int indexCerrar = 0;
+
+            for (int i = 0; i < ec.Length; i++)
+            {
+
+                if (tengoQueCerrar == true)
+                {
+
+                    Boolean cerrar = true;
+
+                    for (int j = 0; j < mis_num.Length; j++)
+                    {
+                        if (ec[i] == mis_num[j])
+                        {
+                            cerrar = false;
+                            break;
+                        }
+                    }
+
+                    if(ec[i] == '-' && (i > 0 && Char.IsDigit(ec[i - 1])))
+                    {
+                        cerrar = true;
+                    }
+                    else if (ec[i] == '-')
+                    {
+                        cerrar = false;
+                    }
+
+                    if (cerrar == true)
+                    {
+                        resultadoEc += ')';
+                        tengoQueCerrar = false;
+                        cerrar = false;
+                    }
+
+                }
+
+                //---------
+
+                if (ec[i] == '-')
+                {
+                    if (i == 0)
+                    {
+                        resultadoEc += '(';
+                        tengoQueCerrar = true;
+
+                    }
+                    else if (ec[i - 1] == '(')
+                    {
+                        int j = i + 1;
+                        while (Char.IsDigit(ec[j]))
+                        {
+                            j++;
+                            indexCerrar = j;
+                        }
+
+                        if (ec[indexCerrar] != ')')
+                        {
+                            resultadoEc += '(';
+                            tengoQueCerrar = true;
+                        }
+                        
+
+                    }
+                    else
+                    {
+                        for (int j = 0; j < mis_verif.Length; j++)
+                        {
+                            if (ec[i - 1] == mis_verif[j])
+                            {
+                                resultadoEc += '(';
+                                tengoQueCerrar = true;
+                            }
+                        }
+                    }
+                   
+                }
+
+                resultadoEc += ec[i];
+
+                if (i == ec.Length - 1 && tengoQueCerrar == true)
+                {
+                    resultadoEc += ')';
+                }
+
+            }
+
+            Console.WriteLine(Environment.NewLine + "ASI QUEDA EN VERIF NUMERO NEGATIVO: " + resultadoEc);
+
+            return resultadoEc;
+        }
+
+
+        public static string veriFinal(string ec, Boolean contadores, Boolean verifNeg)             //ERROR EN RECURSIVIDAD
         {
 
             string car;
             string result = null;
-            Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados");
-            Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
-            Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
+
+            if (contadores == true)
+            {
+                Console.WriteLine("FALTA COLOCAR APRENTESIS!!");
+                Console.WriteLine("Intente de nuevo");
+                //result = verifEc();
+                ec = verifEc();                                                     //<---??????
+            }
+            else if (verifNeg == true)
+            {
+                Console.WriteLine("Hay aprentesis que faltan en numeros negativos y van a ser agregados");
+            }
+            else
+            {
+                Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados o cambiados");
+            }
 
             do
             {
+
+                Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
+                Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
+
                 car = Console.ReadLine().ToUpper();
+                
+
                 if (car == "Y")
                 {
                     Console.WriteLine("Calculando...");                                                         //<----- ENTRAN LOS CALCULOS
@@ -200,7 +371,7 @@ namespace ProyectoGlobal
                 }
                 else if (car == "N")
                 {
-                    result = verifEc();
+                    result = verifEc();                                                 //<--- ????????
                 }
                 else
                 {
