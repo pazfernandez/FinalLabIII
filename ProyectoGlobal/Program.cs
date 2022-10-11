@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Runtime.ConstrainedExecution;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +19,11 @@ namespace ProyectoGlobal
         static void Main(string[] args)
         {
 
-            Console.WriteLine("Termine: " + verifEc());
+            
 
             String ecuacion = verifEc();
+            Console.WriteLine("Termine: " + ecuacion);
+
 
             Console.WriteLine("Resultado de la operacion: "+hacerCalculo(ecuacion));
 
@@ -73,6 +76,8 @@ namespace ProyectoGlobal
 
             ec_terminada = veriNumNegativo(ec_terminada);
             verifNeg = entraVerifNegativo(ec_parentesis, ec_terminada);
+
+            ec_terminada = veriOperaciones(ec_terminada);
 
             if (ecuacion != ec_terminada || verifPara == true)
             {
@@ -160,12 +165,10 @@ namespace ProyectoGlobal
                         }
                     }
 
-
                     if (agregoCarac == true)
                     {
                         contB++;
                     }
-
 
                     if (contB > contA)
                     {
@@ -237,8 +240,7 @@ namespace ProyectoGlobal
         public static string veriNumNegativo(string ec)
         {
 
-            char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
-            //char[] mis_verif = { '+', '-', '*', '/', '('};
+            char[] mis_num = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
             char[] mis_verif = { '+', '-', '*', '/'};
 
             string resultadoEc = "";
@@ -336,8 +338,46 @@ namespace ProyectoGlobal
             return resultadoEc;
         }
 
+        public static string veriOperaciones(string ec)
+        {
 
-        public static string veriFinal(string ec, Boolean contadores, Boolean verifNeg)             //ERROR EN RECURSIVIDAD
+            string resultEc = "";
+
+            char[] mis_verif = {'+', '-', '*', '/'};
+            bool borroOp = false;
+
+            for (int i = 0; i < ec.Length; i++)
+            {
+
+                if(i > 0)
+                {
+                    if (mis_verif.Contains(ec[i]) && mis_verif.Contains(ec[i - 1]))
+                    {
+                        borroOp = true;
+                    }
+                }else if(i == 0)
+                {
+                    if (mis_verif.Contains(ec[i]))
+                    {
+                        borroOp = true;
+                    }
+                }
+
+                if (borroOp == false)
+                {
+                    resultEc += ec[i];
+                }
+                else
+                {
+                    borroOp = false;
+                }
+                
+            }
+            Console.WriteLine(Environment.NewLine + "ASI QUEDA EN VERIF OPERACIONES: " + resultEc);
+            return resultEc;
+        }
+
+        public static string veriFinal(string ec, Boolean contadores, Boolean verifNeg)             
         {
 
             string car;
@@ -347,46 +387,60 @@ namespace ProyectoGlobal
             {
                 Console.WriteLine("FALTA COLOCAR APRENTESIS!!");
                 Console.WriteLine("Intente de nuevo");
-                //result = verifEc();
-                ec = verifEc();                                                     //<---??????
+                ec = verifEc();
+                result = ec;
             }
             else if (verifNeg == true)
             {
                 Console.WriteLine("Hay aprentesis que faltan en numeros negativos y van a ser agregados");
-            }
-            else
-            {
-                Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados o cambiados");
-            }
-
-            do
-            {
-
                 Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
                 Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
 
                 car = Console.ReadLine().ToUpper();
+
+                result = verifCondicion(car, result, ec);
+            }
+            else
+            {
+                Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados o cambiados");
+                Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
+                Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
+
+                car = Console.ReadLine().ToUpper();
+
+                result = verifCondicion(car, result, ec);
                 
-
-                if (car == "Y")
-                {
-                    Console.WriteLine("Calculando...");                                                         //<----- ENTRAN LOS CALCULOS
-                    result = ec;
-                }
-                else if (car == "N")
-                {
-                    result = verifEc();                                                 //<--- ????????
-                }
-                else
-                {
-                    Console.WriteLine("No ingresó ni 'Y' ni 'N', intente de nuevo");
-                }
-
-            } while (car != "Y" && car != "N");
+            }
 
             return result;
+
         }
 
+        public static string verifCondicion(string car, string result, string ec)
+        {
+
+            if (car == "Y")
+            {
+                Console.WriteLine("Calculando...");                                                         //<----- ENTRAN LOS CALCULOS
+                result = ec;
+            }
+            else if (car == "N")
+            {
+                ec = verifEc();
+                result = ec;
+
+            }
+            else
+            {
+                Console.WriteLine("No ingresó ni 'Y' ni 'N', intente de nuevo");
+                car = Console.ReadLine().ToUpper();
+                verifCondicion(car,result,ec);
+
+            }
+
+            return result;
+
+        }
 
         public static string hacerCalculo(string ecuacion)
         {
