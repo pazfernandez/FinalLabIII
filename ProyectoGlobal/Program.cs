@@ -66,22 +66,31 @@ namespace ProyectoGlobal
             }
             Console.WriteLine("ASI QUEDA EN VERIF CARACTERES: " + ec_terminada);
 
-            Boolean verifPara;
-            Boolean verifNeg;
+            bool verifPara;
+            bool verifNeg;
+            bool verifDivPorCero;
 
+            //verifica parentesis
             ec_terminada = verifParentesis(ec_terminada);
             verifPara = contadoresDesiguales(ec_terminada);
 
             string ec_parentesis = ec_terminada;
 
+            //verifica que no se repitan las operaciones +, * y /
+            ec_terminada = veriOperaciones(ec_terminada);
+
+
+            //verifica numeros negativos
             ec_terminada = veriNumNegativo(ec_terminada);
             verifNeg = entraVerifNegativo(ec_parentesis, ec_terminada);
 
-            ec_terminada = veriOperaciones(ec_terminada);
+            
+            //verifica que no haya divisiones por 0
+            verifDivPorCero = veriDivPorCero(ec_terminada);
 
-            if (ecuacion != ec_terminada || verifPara == true)
+            if (ecuacion != ec_terminada || verifPara == true || verifDivPorCero == true)
             {
-                return ec_terminada = veriFinal(ec_terminada, verifPara, verifNeg);
+                return ec_terminada = veriFinal(ec_terminada, verifPara, verifNeg, verifDivPorCero);
             }
 
             return ec_terminada;
@@ -342,25 +351,48 @@ namespace ProyectoGlobal
         {
 
             string resultEc = "";
+            int indiceUltimoNum = 0;
 
-            char[] mis_verif = {'+', '-', '*', '/'};
+            char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+            char[] mis_verif = {'+', '*', '/','-'};
+            char[] mis_verifSinMenos = { '+', '*', '/'};
             bool borroOp = false;
 
             for (int i = 0; i < ec.Length; i++)
             {
+                if (mis_num.Contains(ec[i]))
+                {
+                    indiceUltimoNum = i;
+                }
+            }
 
-                if(i > 0)
+            for (int i = 0; i < ec.Length; i++)
+            {
+
+                if(i > 0 && i <= indiceUltimoNum)
                 {
-                    if (mis_verif.Contains(ec[i]) && mis_verif.Contains(ec[i - 1]))
+                    if (mis_verifSinMenos.Contains(ec[i]) && mis_verif.Contains(ec[i - 1]))
                     {
                         borroOp = true;
                     }
-                }else if(i == 0)
+                    else if (ec[i] == '-')
+                    {
+                        if ((mis_verif.Contains(ec[i - 1]) && mis_verif.Contains(ec[i + 1])) )
+                        {
+                            borroOp= true;
+                        }
+                    }
+                }
+                else if(i == 0)
                 {
-                    if (mis_verif.Contains(ec[i]))
+                    if (mis_verifSinMenos.Contains(ec[i]))
                     {
                         borroOp = true;
                     }
+                }
+                else
+                {
+                    borroOp = true;
                 }
 
                 if (borroOp == false)
@@ -373,11 +405,14 @@ namespace ProyectoGlobal
                 }
                 
             }
+
+
             Console.WriteLine(Environment.NewLine + "ASI QUEDA EN VERIF OPERACIONES: " + resultEc);
             return resultEc;
         }
 
-        public static string veriFinal(string ec, Boolean contadores, Boolean verifNeg)             
+
+        public static string veriFinal(string ec, bool contadores, bool verifNeg, bool verifDivPorCero)             
         {
 
             string car;
@@ -400,6 +435,13 @@ namespace ProyectoGlobal
 
                 result = verifCondicion(car, result, ec);
             }
+            else if (verifDivPorCero)
+            {
+                Console.WriteLine("NO SE PUEDE DIVIDIR POR CERO!!");
+                Console.WriteLine("Intente de nuevo");
+                ec = verifEc();
+                result = ec;
+            }
             else
             {
                 Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados o cambiados");
@@ -415,6 +457,7 @@ namespace ProyectoGlobal
             return result;
 
         }
+
 
         public static string verifCondicion(string car, string result, string ec)
         {
@@ -440,6 +483,42 @@ namespace ProyectoGlobal
 
             return result;
 
+        }
+
+        public static bool veriDivPorCero(string ec)                            //<---ERROR de indice fuera de rango, arreglar
+        {
+            char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            char[] mis_numCero = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+            int indexFueraDeRango = 0;
+
+
+            for (int i = 0; i < ec.Length; i++)
+            {
+                if (mis_numCero.Contains(ec[i]))
+                {
+                    indexFueraDeRango = i;
+                }
+            }
+
+            for (int i = 0; i < ec.Length; i++)
+            {
+                if (ec[i] == '0' && i < indexFueraDeRango && i > 0)
+                {
+                    if (ec[i - 1] == '/' && !mis_num.Contains(ec[i + 1]))
+                    {
+                        return true;
+                    }
+                }
+                else if (ec[i] == '0' && i == indexFueraDeRango)
+                {
+                    if (ec[i - 1] == '/')
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public static string hacerCalculo(string ecuacion)
