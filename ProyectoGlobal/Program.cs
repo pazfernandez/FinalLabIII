@@ -511,7 +511,7 @@ namespace ProyectoGlobal
             for (int i = 0; i < subEcuacion.Length; i++)
             {
                 //Si el caracter es digito, se lo agrega en el contador
-                if (Char.IsDigit(subEcuacion, i))
+                if (Char.IsDigit(subEcuacion, i) || subEcuacion[i] == '.')
                 {
 
                     contadorNumeros++;
@@ -522,9 +522,9 @@ namespace ProyectoGlobal
 
                         try
                         {
-                            int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                            int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
-                            int resultadoOperacion = 0;
+                            float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                            float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
+                            float resultadoOperacion = 0;
 
 
                             switch (numeroOP)
@@ -551,7 +551,6 @@ namespace ProyectoGlobal
                         catch(Exception e)
                         {
                             Console.WriteLine(e.ToString());
-                            Console.WriteLine("SOY BASURA");
                         }
 
                         
@@ -571,12 +570,12 @@ namespace ProyectoGlobal
                     numerosAntes = contadorNumeros;
                     contadorNumeros = 0;
                 }
-                else if (operacionEncontrada && !Char.IsDigit(subEcuacion, i) && subEcuacion[i] != 'p')
+                else if (operacionEncontrada && (!Char.IsDigit(subEcuacion, i) || !(subEcuacion[i] == '.')) && subEcuacion[i] != 'p')
                 {
 
-                    int numeroAnterior = int.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                    int numeroSiguiente = int.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
-                    int resultadoOperacion = 0;
+                    float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                    float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
+                    float resultadoOperacion = 0;
                     contadorOperaciones++;
 
 
@@ -622,10 +621,10 @@ namespace ProyectoGlobal
                     try
                     {
                         //Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
-                        int numeroAnterior = int.Parse(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes));
+                        float numeroAnterior = float.Parse(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes));
 
-                        int numeroSiguiente = int.Parse(subEcuacion.Substring(indexOpFinal + 1));
-                        int resultadoOperacion = 0;
+                        float numeroSiguiente = float.Parse(subEcuacion.Substring(indexOpFinal + 1));
+                        float resultadoOperacion = 0;
 
 
    
