@@ -572,9 +572,6 @@ namespace ProyectoGlobal
             }
 
 
-
-            //if (numeroParentesis >= 0)
-            //{
             string miniEcuacion;
 
                
@@ -602,32 +599,7 @@ namespace ProyectoGlobal
             return miniEcuacion;    
 
  
-                //Console.WriteLine(miniEcuacion);
-
-                //Resultado guardado de la resolucion de la miniecuacion
-                
-                
-                
-                /*if(numeroParentesis > 0)
-                {
-                   //Console.WriteLine(hacerCalculo(miniEcuacion) + " MINIECUACION RECURSIVA");
-
-                }
-                else
-                {
-                    Console.WriteLine("MINIECUACION QUE ESTA DEVOLVIENDO: " + miniEcuacion);
-                    ecuacion = realizarEcSubOperaciones(miniEcuacion);
-                    return ecuacion;
-                }
-            /*}
-            else
-            {
-                Console.WriteLine("ECUACION QUE ESTA DEVOLVIENDO: "+ecuacion);
-                ecuacion = realizarEcSubOperaciones(ecuacion);
-                return ecuacion;
-            }
-            Console.WriteLine("ECUACION QUE ESTA DEVOLVIENDO: " + ecuacion);
-            return ecuacion;*/
+   
 
         }
 
@@ -675,46 +647,10 @@ namespace ProyectoGlobal
 
                     if (i == subEcuacion.Length) //else if (operacionEncontrada && i == '6')
                     {
-
-                        try
-                        {
-                            float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                            float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
-                            float resultadoOperacion = 0;
-
-
-                            switch (numeroOP)
-                            {
-                                case 0:
-                                    resultadoOperacion = numeroAnterior * numeroSiguiente;
-                                    return Convert.ToString(resultadoOperacion);
-                                    break;
-                                case 1:
-                                    resultadoOperacion = numeroAnterior / numeroSiguiente;
-                                    return Convert.ToString(resultadoOperacion);
-                                    break;
-                                case 2:
-                                    resultadoOperacion = numeroAnterior + numeroSiguiente;
-
-                                    return Convert.ToString(resultadoOperacion);
-                                    break;
-                                case 3:
-                                    resultadoOperacion = numeroAnterior - numeroSiguiente;
-                                    return Convert.ToString(resultadoOperacion);
-                                    break;
-                            }
-                        }
-                        catch(Exception e)
-                        {
-                            Console.WriteLine(e.ToString());
-                        }
-
-                        
+                        //Retorna la ecuacion hecha si es la ultima
+                        return siOPEsFinal(subEcuacion, numeroOP, posicionOperacionActual, numerosAntes);
 
                     }
-
-
-
 
 
                 }
@@ -729,37 +665,9 @@ namespace ProyectoGlobal
                 else if (operacionEncontrada && (!Char.IsDigit(subEcuacion, i) || !(subEcuacion[i] == '.')) && subEcuacion[i] != 'p')
                 {
 
-                    float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                    float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
-                    float resultadoOperacion = 0;
                     contadorOperaciones++;
 
-
-                    switch (numeroOP)
-                    {
-                        case 0:
-                            resultadoOperacion = numeroAnterior * numeroSiguiente;
-                            break;
-                        case 1:
-                            resultadoOperacion = numeroAnterior / numeroSiguiente;
-                            break;
-                        case 2:
-                            resultadoOperacion = numeroAnterior + numeroSiguiente;
-                            break;
-                        case 3:
-                            resultadoOperacion = numeroAnterior - numeroSiguiente;
-                            break;
-                    }
-                    // desde 0 hasta el principio de la operacion, el resultado operacion y lo que de la operacion
-
-                    if (posicionOperacionActual - numerosAntes == 0)
-                    {
-                        operacionRealizada = resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 1);
-                    }
-                    else
-                    {
-                        operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2);
-                    }
+                    operacionRealizada = opNoUltima(subEcuacion, posicionOperacionActual, numerosAntes, contadorNumeros, numeroOP);
 
                     Console.WriteLine(operacionRealizada + " OPERACION INTERMEDIA REALIZADA");
                     resultadoFinal = realizarEcSub(operacionRealizada, numeroOP);
@@ -774,67 +682,12 @@ namespace ProyectoGlobal
 
                 //si esta es la operacion en el ultimo lugar, se realiza de manera diferente con los parametros pasados al final
                 if (i == indexOpFinal && numeroOP == operacionFinalTipo){
-                    try
-                    {
-                        Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
-                        float numeroAnterior = float.Parse(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes));
 
-                        float numeroSiguiente = float.Parse(subEcuacion.Substring(indexOpFinal + 1));
-                        float resultadoOperacion = 0;
-
-
-   
-
-                            switch (numeroOP)
-                            {
-                                case 0:
-                                    resultadoOperacion = numeroAnterior * numeroSiguiente;
-                                    
-                                    break;
-                                case 1:
-                                    resultadoOperacion = numeroAnterior / numeroSiguiente;
-                                    
-                                    break;
-                                case 2:
-                                    resultadoOperacion = numeroAnterior + numeroSiguiente;
-                                    
-                                    break;
-                                case 3:
-                                    resultadoOperacion = numeroAnterior - numeroSiguiente;
-                                    
-                                    break;
-                            }
-
-                        if (indexOpFinal - numerosAntes == 0)
-                        {
-                            Console.WriteLine(resultadoOperacion + " ULTIMA OPERACION REALIZADA");
-                            return Convert.ToString(resultadoOperacion);
-
-                        }
-                        else
-                        {
-                            operacionRealizada = subEcuacion.Substring(0, indexOpFinal - numerosAntes) + resultadoOperacion;
-                            Console.WriteLine(operacionRealizada+" ULTIMA OPERACION REALIZADA");
-                            return operacionRealizada;
-                        }
-                    }
-
-                    
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-
-                    }
-            }
-                
-
-               
-
-
-
+                    //Retorna la ecuacion hecha si es la ultima
+                    return funcionOPultima(subEcuacion, posicionOperacionActual, numerosAntes, contadorNumeros, numeroOP, indexOpFinal);
+                }     
 
             }
-
 
             return subEcuacion;
         }
@@ -878,7 +731,144 @@ namespace ProyectoGlobal
 
 
 
+        public static string siOPEsFinal(String subEcuacion, int numeroOP, int posicionOperacionActual, int numerosAntes)
+        {
+            try
+            {
+                float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+                float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
+                float resultadoOperacion = 0;
 
 
+                switch (numeroOP)
+                {
+                    case 0:
+                        resultadoOperacion = numeroAnterior * numeroSiguiente;
+                        return Convert.ToString(resultadoOperacion);
+                        break;
+                    case 1:
+                        resultadoOperacion = numeroAnterior / numeroSiguiente;
+                        return Convert.ToString(resultadoOperacion);
+                        break;
+                    case 2:
+                        resultadoOperacion = numeroAnterior + numeroSiguiente;
+
+                        return Convert.ToString(resultadoOperacion);
+                        break;
+                    case 3:
+                        resultadoOperacion = numeroAnterior - numeroSiguiente;
+                        return Convert.ToString(resultadoOperacion);
+                        break;
+
+                        
+                        
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            return "SLAENLC";
+        }
+        
+
+        public static String opNoUltima(String subEcuacion, int posicionOperacionActual, int numerosAntes, int contadorNumeros, int numeroOP)
+        {
+            float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
+            float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
+            float resultadoOperacion = 0;
+
+            String operacionRealizada;
+
+
+            switch (numeroOP)
+            {
+                case 0:
+                    resultadoOperacion = numeroAnterior * numeroSiguiente;
+                    break;
+                case 1:
+                    resultadoOperacion = numeroAnterior / numeroSiguiente;
+                    break;
+                case 2:
+                    resultadoOperacion = numeroAnterior + numeroSiguiente;
+                    break;
+                case 3:
+                    resultadoOperacion = numeroAnterior - numeroSiguiente;
+                    break;
+            }
+            // desde 0 hasta el principio de la operacion, el resultado operacion y lo que de la operacion
+
+            if (posicionOperacionActual - numerosAntes == 0)
+            {
+                operacionRealizada = resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 1);
+            }
+            else
+            {
+                operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2);
+            }
+
+            return operacionRealizada;
+        }
+
+
+
+
+
+        public static String funcionOPultima(String subEcuacion, int posicionOperacionActual, int numerosAntes, int contadorNumeros, int numeroOP, int indexOpFinal)
+        {
+            try
+            {
+                Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
+                float numeroAnterior = float.Parse(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes));
+
+                float numeroSiguiente = float.Parse(subEcuacion.Substring(indexOpFinal + 1));
+                float resultadoOperacion = 0;
+
+                String operacionRealizada;
+
+
+                switch (numeroOP)
+                {
+                    case 0:
+                        resultadoOperacion = numeroAnterior * numeroSiguiente;
+
+                        break;
+                    case 1:
+                        resultadoOperacion = numeroAnterior / numeroSiguiente;
+
+                        break;
+                    case 2:
+                        resultadoOperacion = numeroAnterior + numeroSiguiente;
+
+                        break;
+                    case 3:
+                        resultadoOperacion = numeroAnterior - numeroSiguiente;
+
+                        break;
+                }
+
+                if (indexOpFinal - numerosAntes == 0)
+                {
+                    Console.WriteLine(resultadoOperacion + " ULTIMA OPERACION REALIZADA");
+                    return Convert.ToString(resultadoOperacion);
+
+                }
+                else
+                {
+                    operacionRealizada = subEcuacion.Substring(0, indexOpFinal - numerosAntes) + resultadoOperacion;
+                    Console.WriteLine(operacionRealizada + " ULTIMA OPERACION REALIZADA");
+                    return operacionRealizada;
+                }
+            }
+
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+            return "SEAMCLC";
+        }
     }
 }
