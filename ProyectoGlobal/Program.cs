@@ -24,8 +24,8 @@ namespace ProyectoGlobal
             String ecuacion = verifEc();
             Console.WriteLine("Termine: " + ecuacion);
 
-
-            Console.WriteLine("Resultado de la operacion: "+hacerCalculo(ecuacion));
+            String resultado = hacerCalculo(ecuacion);
+            Console.WriteLine("Resultado de la operacion: "+resultadoNegFinal(resultado));
 
 
 
@@ -546,7 +546,7 @@ namespace ProyectoGlobal
                     //Si lo siguiente al parentesis abrir es un menos, entonces hay que tomarlo como numero negativo
                     if (parentesisNumsNegativos(ecuacion, i))
                     {
-                        Console.WriteLine("ENTRE EN BUCLE NEGATIVOS");
+                        //Console.WriteLine("ENTRE EN BUCLE NEGATIVOS");
                         String numeroNegativo;
                         int contadorNumeros = 0;
 
@@ -557,7 +557,7 @@ namespace ProyectoGlobal
                         {
                             if (ecuacion[j] != ')' && !cierreNegEncontrado)
                             {
-                                Console.WriteLine("ª");
+                                //Console.WriteLine("ª");
                                 contadorNumeros++;
 
                             }
@@ -572,13 +572,13 @@ namespace ProyectoGlobal
                         //Se guarda un substring con el numero negativo, ya con n adelante y sin parentesis
                         numeroNegativo = "n" + ecuacion.Substring(i + 2, contadorNumeros);
 
-                        Console.WriteLine(numeroNegativo + " SOY UN NUMERO NEGATIVO");
+                        //Console.WriteLine(numeroNegativo + " SOY UN NUMERO NEGATIVO");
 
 
                         //Se guarda la nueva ecuacion con el numero negativo reemplazando el de antes
                         ecuacion = ecuacion.Substring(0, i)+numeroNegativo+ecuacion.Substring(i+contadorNumeros+3);
 
-                        Console.WriteLine(ecuacion + " SOY LA ECUACION CON UN NUMERO NEGATIVO");
+                        //Console.WriteLine(ecuacion + " SOY LA ECUACION CON UN NUMERO NEGATIVO");
                     }
                     else
                     {
@@ -652,7 +652,7 @@ namespace ProyectoGlobal
             for (int j = 0; j < 4; j++)
             {
                 subEcuacion = realizarEcSub(subEcuacion, j);
-                Console.WriteLine(subEcuacion + " subEcuacion");
+                //Console.WriteLine(subEcuacion + " subEcuacion");
 
             }
             //Console.WriteLine(subEcuacion + " subEcuacion");
@@ -711,7 +711,7 @@ namespace ProyectoGlobal
 
                     operacionRealizada = opNoUltima(subEcuacion, posicionOperacionActual, numerosAntes, contadorNumeros, numeroOP);
 
-                    Console.WriteLine(operacionRealizada + " OPERACION INTERMEDIA REALIZADA");
+                    //Console.WriteLine(operacionRealizada + " OPERACION INTERMEDIA REALIZADA");
                     resultadoFinal = realizarEcSub(operacionRealizada, numeroOP);
                     return resultadoFinal;
 
@@ -845,7 +845,7 @@ namespace ProyectoGlobal
         {
             String numeroAnteriors = subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes);
             float numeroAnterior = buscarNegConvFloat(numeroAnteriors);
-            Console.WriteLine(numeroAnterior + " NUMERO NEGATIVO");
+            //Console.WriteLine(numeroAnterior + " NUMERO NEGATIVO");
 
             String numeroSiguientes = subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros);
             float numeroSiguiente = buscarNegConvFloat(numeroSiguientes);
@@ -907,7 +907,7 @@ namespace ProyectoGlobal
         {
             try
             {
-                Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
+                //Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
                 String numeroAnteriors = subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes);
                 float numeroAnterior = buscarNegConvFloat(numeroAnteriors);
 
@@ -951,14 +951,33 @@ namespace ProyectoGlobal
 
                 if (indexOpFinal - numerosAntes == 0)
                 {
-                    Console.WriteLine(resultadoOperacion + " ULTIMA OPERACION REALIZADA");
-                    return Convert.ToString(resultadoOperacion);
+                    //Console.WriteLine(resultadoOperacion + " ULTIMA OPERACION REALIZADA");
+
+                    String resultado = Convert.ToString(resultadoOperacion);
+
+                    if (resultado[0] == '-')
+                    {
+                        return "n" + resultado.Substring(1);
+                    }
+                    else
+                    {
+                        return resultado;
+                    }
+                    
 
                 }
                 else
                 {
-                    operacionRealizada = subEcuacion.Substring(0, indexOpFinal - numerosAntes) + resultadoOperacion;
-                    Console.WriteLine(operacionRealizada + " ULTIMA OPERACION REALIZADA");
+                    String resultado = Convert.ToString(resultadoOperacion);
+
+                    if (resultado[0] == '-')
+                    {
+                        resultado = "n" + resultado.Substring(1);
+                    }
+                    
+
+                    operacionRealizada = subEcuacion.Substring(0, indexOpFinal - numerosAntes) + resultado;
+                    //Console.WriteLine(operacionRealizada + " ULTIMA OPERACION REALIZADA");
                     return operacionRealizada;
                 }
             }
@@ -980,10 +999,9 @@ namespace ProyectoGlobal
 
         public static bool parentesisNumsNegativos(String miniEcuacion, int indexParentesis)
         {
-            Console.WriteLine(miniEcuacion + " ESTOY SIENDO PROCESADA PARA VER SI TENGO NEGATIVOS");
+
             if (miniEcuacion[indexParentesis+1] == '-')
             {
-                Console.WriteLine("que siiiiiiiiiiiiiiiii");
                 return true;
             }
 
@@ -1010,7 +1028,17 @@ namespace ProyectoGlobal
             return stringANum;
         }
 
+        public static String resultadoNegFinal(String numero)
+        {
 
+
+            if (numero[0] == 'n')
+            {
+                numero = "-"+numero.Substring(1);
+            }
+            
+            return numero;
+        }
 
 
     }
