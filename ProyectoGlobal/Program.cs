@@ -523,6 +523,7 @@ namespace ProyectoGlobal
 
         public static string hacerCalculo(string ecuacion)
         {
+            bool parentesisDeNeg = false;
             float resultado;
 
             //Creacion de dos arrays para indicar las posiciones de los pares de parentesis relacionados
@@ -542,14 +543,55 @@ namespace ProyectoGlobal
                 //parentesisCerrar = parentesisAbrir;
                 if (ecuacion[i] == '(')
                 {
+                    //Si lo siguiente al parentesis abrir es un menos, entonces hay que tomarlo como numero negativo
+                    if (parentesisNumsNegativos(ecuacion, i))
+                    {
+                        Console.WriteLine("ENTRE EN BUCLE NEGATIVOS");
+                        String numeroNegativo;
+                        int contadorNumeros = 0;
 
-                    numeroParentesis++;
-                    //Si encuentra un parentesis abierto, lo guarda en un array y de valor va el index
-                    prioridadParentesisAbrir[numeroParentesis] = i;
-                    //Console.WriteLine("index de (: " + i);
+                        bool cierreNegEncontrado = false;
 
-                    //Se declara no encontrado el index del numero del par
-                    parNoEncontrado[numeroParentesis] = true;
+                        //Se pasa por el numero negativo para ver la cantidad de digitos
+                        for (int j = i + 2; j < ecuacion.Length; j++)
+                        {
+                            if (ecuacion[j] != ')' && !cierreNegEncontrado)
+                            {
+                                Console.WriteLine("ª");
+                                contadorNumeros++;
+
+                            }
+                            else
+                            {
+                                cierreNegEncontrado = true;
+                            }
+                            
+                            
+                            
+                        }
+                        //Se guarda un substring con el numero negativo, ya con n adelante y sin parentesis
+                        numeroNegativo = "n" + ecuacion.Substring(i + 2, contadorNumeros);
+
+                        Console.WriteLine(numeroNegativo + " SOY UN NUMERO NEGATIVO");
+
+
+                        //Se guarda la nueva ecuacion con el numero negativo reemplazando el de antes
+                        ecuacion = ecuacion.Substring(0, i)+numeroNegativo+ecuacion.Substring(i+contadorNumeros+3);
+
+                        Console.WriteLine(ecuacion + " SOY LA ECUACION CON UN NUMERO NEGATIVO");
+                    }
+                    else
+                    {
+                        numeroParentesis++;
+                        //Si encuentra un parentesis abierto, lo guarda en un array y de valor va el index
+                        prioridadParentesisAbrir[numeroParentesis] = i;
+                        //Console.WriteLine("index de (: " + i);
+
+                        //Se declara no encontrado el index del numero del par
+                        parNoEncontrado[numeroParentesis] = true;
+
+                    }
+                    
 
                 }
                 else if (ecuacion[i] == ')')
@@ -870,5 +912,28 @@ namespace ProyectoGlobal
             }
             return "SEAMCLC";
         }
+
+
+
+
+
+
+
+        public static bool parentesisNumsNegativos(String miniEcuacion, int indexParentesis)
+        {
+            Console.WriteLine(miniEcuacion + " ESTOY SIENDO PROCESADA PARA VER SI TENGO NEGATIVOS");
+            if (miniEcuacion[indexParentesis+1] == '-')
+            {
+                Console.WriteLine("que siiiiiiiiiiiiiiiii");
+                return true;
+            }
+
+            return false;
+
+        }
+
+
+
+
     }
 }
