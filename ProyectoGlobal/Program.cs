@@ -681,7 +681,7 @@ namespace ProyectoGlobal
             for (int i = 0; i < subEcuacion.Length; i++)
             {
                 //Si el caracter es digito, se lo agrega en el contador
-                if (Char.IsDigit(subEcuacion, i) || subEcuacion[i] == '.')
+                if (Char.IsDigit(subEcuacion, i) || subEcuacion[i] == '.' || subEcuacion[i] == 'n')
                 {
 
                     contadorNumeros++;
@@ -704,7 +704,7 @@ namespace ProyectoGlobal
                     numerosAntes = contadorNumeros;
                     contadorNumeros = 0;
                 }
-                else if (operacionEncontrada && (!Char.IsDigit(subEcuacion, i) || !(subEcuacion[i] == '.')) && subEcuacion[i] != 'p')
+                else if (operacionEncontrada && (!Char.IsDigit(subEcuacion, i) || !(subEcuacion[i] == '.') || !(subEcuacion[i] == 'n')) && subEcuacion[i] != 'p')
                 {
 
                     contadorOperaciones++;
@@ -777,16 +777,23 @@ namespace ProyectoGlobal
         {
             try
             {
-                float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-                float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1));
+                String numeroAnteriors = subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes);
+                float numeroAnterior = buscarNegConvFloat(numeroAnteriors);
+
+                String numeroSiguientes = subEcuacion.Substring(posicionOperacionActual + 1);
+                float numeroSiguiente = buscarNegConvFloat(numeroSiguientes);
+
                 float resultadoOperacion = 0;
+
+                String devolverResultado = "";
+
 
 
                 switch (numeroOP)
                 {
                     case 0:
                         resultadoOperacion = numeroAnterior * numeroSiguiente;
-                        return Convert.ToString(resultadoOperacion);
+                        devolverResultado = Convert.ToString(resultadoOperacion);
                         break;
                     case 1:
                         if (numeroSiguiente == 0)
@@ -799,21 +806,31 @@ namespace ProyectoGlobal
                             resultadoOperacion = numeroAnterior / numeroSiguiente;
                             break;
                         }
-                        return Convert.ToString(resultadoOperacion);
+
+                        devolverResultado = Convert.ToString(resultadoOperacion);
                         break;
                     case 2:
                         resultadoOperacion = numeroAnterior + numeroSiguiente;
 
-                        return Convert.ToString(resultadoOperacion);
+                        devolverResultado = Convert.ToString(resultadoOperacion);
                         break;
                     case 3:
                         resultadoOperacion = numeroAnterior - numeroSiguiente;
-                        return Convert.ToString(resultadoOperacion);
+                        devolverResultado =  Convert.ToString(resultadoOperacion);
                         break;
 
                         
                         
                 }
+                if (devolverResultado[0] == '-')
+                {
+                    return "n"+devolverResultado.Substring(1);
+                }
+                else
+                {
+                    return devolverResultado;
+                }
+               
             }
             catch (Exception e)
             {
@@ -826,8 +843,13 @@ namespace ProyectoGlobal
 
         public static String opNoUltima(String subEcuacion, int posicionOperacionActual, int numerosAntes, int contadorNumeros, int numeroOP)
         {
-            float numeroAnterior = float.Parse(subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes));
-            float numeroSiguiente = float.Parse(subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros));
+            String numeroAnteriors = subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes);
+            float numeroAnterior = buscarNegConvFloat(numeroAnteriors);
+            Console.WriteLine(numeroAnterior + " NUMERO NEGATIVO");
+
+            String numeroSiguientes = subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros);
+            float numeroSiguiente = buscarNegConvFloat(numeroSiguientes);
+
             float resultadoOperacion = 0;
 
             String operacionRealizada;
@@ -880,9 +902,13 @@ namespace ProyectoGlobal
             try
             {
                 Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
-                float numeroAnterior = float.Parse(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes));
+                String numeroAnteriors = subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes);
+                float numeroAnterior = buscarNegConvFloat(numeroAnteriors);
 
-                float numeroSiguiente = float.Parse(subEcuacion.Substring(indexOpFinal + 1));
+
+                String numeroSiguientes = subEcuacion.Substring(indexOpFinal + 1);
+                float numeroSiguiente = buscarNegConvFloat(numeroSiguientes);
+
                 float resultadoOperacion = 0;
 
                 String operacionRealizada;
@@ -957,6 +983,25 @@ namespace ProyectoGlobal
 
             return false;
 
+        }
+
+
+
+
+        public static float buscarNegConvFloat(String numero)
+        {
+            float stringANum;
+
+            if (numero[0] == 'n')
+            {
+                stringANum = (float.Parse(numero.Substring(1))) * -1;
+            }
+            else
+            {
+                stringANum = float.Parse(numero);
+                
+            }
+            return stringANum;
         }
 
 
