@@ -584,26 +584,31 @@ namespace ProyectoGlobal
 
                 //Console.WriteLine(miniEcuacion);
 
+                //Resultado guardado de la resolucion de la miniecuacion
                 String nuevaEcuacion = realizarEcSubOperaciones(miniEcuacion);
                 miniEcuacion = ecuacion.Substring(0, prioridadParentesisAbrir[numeroParentesis]) + nuevaEcuacion + ecuacion.Substring(prioridadParentesisCerrar[numeroParentesis] + 1);
 
-                //Console.WriteLine(hacerCalculo(miniEcuacion) + " MINIECUACION RECURSIVA");
-
+                miniEcuacion = hacerCalculo(miniEcuacion);
+                
                 if(numeroParentesis > 0)
                 {
-                   // Console.WriteLine(hacerCalculo(miniEcuacion) + " MINIECUACION RECURSIVA");
+                   //Console.WriteLine(hacerCalculo(miniEcuacion) + " MINIECUACION RECURSIVA");
 
                 }
                 else
                 {
-                    return realizarEcSubOperaciones(miniEcuacion);
+                    Console.WriteLine("MINIECUACION QUE ESTA DEVOLVIENDO: " + miniEcuacion);
+                    ecuacion = realizarEcSubOperaciones(miniEcuacion);
+                    return ecuacion;
                 }
             }
             else
             {
-                return realizarEcSubOperaciones(ecuacion);
+                Console.WriteLine("ECUACION QUE ESTA DEVOLVIENDO: "+ecuacion);
+                ecuacion = realizarEcSubOperaciones(ecuacion);
+                return ecuacion;
             }
-
+            Console.WriteLine("ECUACION QUE ESTA DEVOLVIENDO: " + ecuacion);
             return ecuacion;
 
         }
@@ -615,8 +620,8 @@ namespace ProyectoGlobal
             for (int j = 0; j < 4; j++)
             {
                 subEcuacion = realizarEcSub(subEcuacion, j);
+                Console.WriteLine(subEcuacion + " subEcuacion");
 
-               
             }
             //Console.WriteLine(subEcuacion + " subEcuacion");
             return subEcuacion;
@@ -738,7 +743,7 @@ namespace ProyectoGlobal
                         operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2);
                     }
 
-                    //Console.WriteLine(operacionRealizada + " OPERACION INTERMEDIA REALIZADA");
+                    Console.WriteLine(operacionRealizada + " OPERACION INTERMEDIA REALIZADA");
                     resultadoFinal = realizarEcSub(operacionRealizada, numeroOP);
                     return resultadoFinal;
 
@@ -753,7 +758,7 @@ namespace ProyectoGlobal
                 if (i == indexOpFinal && numeroOP == operacionFinalTipo){
                     try
                     {
-                        //Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
+                        Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
                         float numeroAnterior = float.Parse(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes));
 
                         float numeroSiguiente = float.Parse(subEcuacion.Substring(indexOpFinal + 1));
@@ -784,14 +789,14 @@ namespace ProyectoGlobal
 
                         if (indexOpFinal - numerosAntes == 0)
                         {
-                            //Console.WriteLine(resultadoOperacion + " ULTIMA OPERACION REALIZADA");
+                            Console.WriteLine(resultadoOperacion + " ULTIMA OPERACION REALIZADA");
                             return Convert.ToString(resultadoOperacion);
 
                         }
                         else
                         {
                             operacionRealizada = subEcuacion.Substring(0, indexOpFinal - numerosAntes) + resultadoOperacion;
-                            //Console.WriteLine(operacionRealizada+" ULTIMA OPERACION REALIZADA");
+                            Console.WriteLine(operacionRealizada+" ULTIMA OPERACION REALIZADA");
                             return operacionRealizada;
                         }
                     }
