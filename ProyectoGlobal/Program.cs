@@ -573,24 +573,42 @@ namespace ProyectoGlobal
 
 
 
+            //if (numeroParentesis >= 0)
+            //{
+            string miniEcuacion;
+
+               
+
             if (numeroParentesis >= 0)
             {
-
                 //Contar el tamaño que tendra el substring dentro del mayor par de parentesis
                 int substringLenght = prioridadParentesisCerrar[numeroParentesis] - prioridadParentesisAbrir[numeroParentesis] - 1;
 
                 //Nuevo substring para miniecuaciones
-                string miniEcuacion = ecuacion.Substring(prioridadParentesisAbrir[numeroParentesis] + 1, substringLenght);
+                miniEcuacion = ecuacion.Substring(prioridadParentesisAbrir[numeroParentesis] + 1, substringLenght);
+                String nuevaEcuacion = realizarEcSubOperaciones(miniEcuacion);
+                miniEcuacion = ecuacion.Substring(0, prioridadParentesisAbrir[numeroParentesis]) + nuevaEcuacion + ecuacion.Substring(prioridadParentesisCerrar[numeroParentesis] + 1);
+ 
+                miniEcuacion = hacerCalculo(miniEcuacion);
+                return miniEcuacion;
+            }
+            else
+            {
+                miniEcuacion = ecuacion;
+                miniEcuacion = realizarEcSubOperaciones(miniEcuacion);
+                
+            }
 
+            return miniEcuacion;    
+
+ 
                 //Console.WriteLine(miniEcuacion);
 
                 //Resultado guardado de la resolucion de la miniecuacion
-                String nuevaEcuacion = realizarEcSubOperaciones(miniEcuacion);
-                miniEcuacion = ecuacion.Substring(0, prioridadParentesisAbrir[numeroParentesis]) + nuevaEcuacion + ecuacion.Substring(prioridadParentesisCerrar[numeroParentesis] + 1);
-
-                miniEcuacion = hacerCalculo(miniEcuacion);
                 
-                if(numeroParentesis > 0)
+                
+                
+                /*if(numeroParentesis > 0)
                 {
                    //Console.WriteLine(hacerCalculo(miniEcuacion) + " MINIECUACION RECURSIVA");
 
@@ -601,7 +619,7 @@ namespace ProyectoGlobal
                     ecuacion = realizarEcSubOperaciones(miniEcuacion);
                     return ecuacion;
                 }
-            }
+            /*}
             else
             {
                 Console.WriteLine("ECUACION QUE ESTA DEVOLVIENDO: "+ecuacion);
@@ -609,7 +627,7 @@ namespace ProyectoGlobal
                 return ecuacion;
             }
             Console.WriteLine("ECUACION QUE ESTA DEVOLVIENDO: " + ecuacion);
-            return ecuacion;
+            return ecuacion;*/
 
         }
 
