@@ -40,7 +40,7 @@ namespace ProyectoGlobal
 
 
 
-        //Verifica que la ecuacion este bien escrita para luego pasarla a la funcion que hace los calculos
+
         public static string verifEc()
         {
             string ecuacion;
@@ -53,7 +53,7 @@ namespace ProyectoGlobal
 
             letras = ecuacion.ToCharArray();
 
-            foreach (char let in letras)                            //Elimina los caracteres que no pueden aparecer en una ecuacion
+            foreach (char let in letras)
             {
                 for (int i = 0; i < mis_letras.Length; i++)
                 {
@@ -88,7 +88,6 @@ namespace ProyectoGlobal
             //verifica que no haya divisiones por 0
             verifDivPorCero = veriDivPorCero(ec_terminada);
 
-            //Si hay cualquier error se pasa a la funcion veriFinal para intentar arreglarlo, o tener que ingresar de nuevo la ecuacion
             if (ecuacion != ec_terminada || verifPara == true || verifDivPorCero == true)
             {
                 return ec_terminada = veriFinal(ec_terminada, verifPara, verifNeg, verifDivPorCero);
@@ -98,27 +97,26 @@ namespace ProyectoGlobal
 
         }
 
-        //Verifica la apertura y cierre de los parentesis en la ecuacion 
-        public static string verifParentesis(string ec)                                  
+        public static string verifParentesis(string ec)                                  //Verifica la apertura y cierre de los parentesis en la ecuacion 
         {
 
             char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', };
             char[] mis_op = { '+', '-', '*', '/', '(' };
 
             string resultadoEc = "";
-            int contA = 0;                          //contador de parentesis abiertos
-            int contB = 0;                          //contador de parentesis cerrados
+            int contA = 0;
+            int contB = 0;
 
-            for (int i = 0; i < ec.Length; i++)                     //Si agregoCarac es true, se suma el caracter a la cadena, sino, no
+            for (int i = 0; i < ec.Length; i++)
             {
 
                 Boolean agregoCarac = true;
 
-                if (ec[i] == '(')                                   
+                if (ec[i] == '(')
                 {
                     agregoCarac = false;
 
-                    if (i >= 1)                                     
+                    if (i >= 1)
                     {
                         for (int j = 0; j < mis_op.Length; j++)
                         {
@@ -181,7 +179,7 @@ namespace ProyectoGlobal
                         contB++;
                     }
 
-                    if (contB > contA)                          //Nunca van a poder haber mas parentesis cerrados que abiertos
+                    if (contB > contA)
                     {
                         agregoCarac = false;
                         if (contB > 0)
@@ -193,7 +191,7 @@ namespace ProyectoGlobal
 
                 }
 
-                if (agregoCarac == true)                        //Se agrega el caracter a la nueva cadena que se va a retornar
+                if (agregoCarac == true)
                 {
                     resultadoEc += ec[i];
                 }
@@ -207,8 +205,7 @@ namespace ProyectoGlobal
 
         }
 
-        //Se usa en la linea 75 y es para saber si la cantidad de parentesis abiertos y cerrados es la misma o no
-        public static Boolean contadoresDesiguales(string ec)                     
+        public static Boolean contadoresDesiguales(string ec)
         {
             int contA = 0;
             int contB = 0;
@@ -234,8 +231,7 @@ namespace ProyectoGlobal
 
         }
 
-        //Entra en la linea 85 y se fija si el tamaño de la ecaucion en la verificacion de los parentesis y en la verificacion de numeros negativos es distinto
-        public static Boolean entraVerifNegativo(string ec, string ec_terminada)            
+        public static Boolean entraVerifNegativo(string ec, string ec_terminada)
         {
             
             if(ec.Length != ec_terminada.Length)
@@ -249,7 +245,7 @@ namespace ProyectoGlobal
 
         }
 
-        //Funcion que arregla los parentesis faltantes en los numeros negativos
+
         public static string veriNumNegativo(string ec)
         {
 
@@ -261,7 +257,7 @@ namespace ProyectoGlobal
 
             int indexCerrar = 0;
 
-            for (int i = 0; i < ec.Length; i++)                     //Si tengoQueCerrar es true es porque hay un numero negativo que le falta cerrar su parentesis
+            for (int i = 0; i < ec.Length; i++)
             {
 
                 if (tengoQueCerrar == true)
@@ -300,13 +296,13 @@ namespace ProyectoGlobal
 
                 if (ec[i] == '-')
                 {
-                    if (i == 0)                                 //si el primer caracter es un - le agrega su parentesis
+                    if (i == 0)
                     {
                         resultadoEc += '(';
                         tengoQueCerrar = true;
 
                     }
-                    else if (ec[i - 1] == '(')                  //si el caracter es un - y el caracter de la izquierda es un parentesis abierto se fija si hay que cerrarlo
+                    else if (ec[i - 1] == '(')
                     {
                         int j = i + 1;
                         while (Char.IsDigit(ec[j]))
@@ -323,7 +319,7 @@ namespace ProyectoGlobal
                         
 
                     }
-                    else                                                    //Si el caracter es un - y a su izquierda hay una operacion, agrega los parentesis 
+                    else
                     {
                         for (int j = 0; j < mis_verif.Length; j++)
                         {
@@ -339,7 +335,7 @@ namespace ProyectoGlobal
 
                 resultadoEc += ec[i];
 
-                if (i == ec.Length - 1 && tengoQueCerrar == true)           //si llego al ultimo caracter y tengoQueCerrar sigue siendo true, agrega el parentesis que cierra faltante
+                if (i == ec.Length - 1 && tengoQueCerrar == true)
                 {
                     resultadoEc += ')';
                 }
@@ -351,7 +347,6 @@ namespace ProyectoGlobal
             return resultadoEc;
         }
 
-        //Funcion que arregla la mala posicion de las operaciones
         public static string veriOperaciones(string ec)
         {
 
@@ -363,7 +358,7 @@ namespace ProyectoGlobal
             char[] mis_verifSinMenos = { '+', '*', '/'};
             bool borroOp = false;
 
-            for (int i = 0; i < ec.Length; i++)                         //
+            for (int i = 0; i < ec.Length; i++)
             {
                 if (mis_num.Contains(ec[i]))
                 {
@@ -416,8 +411,7 @@ namespace ProyectoGlobal
             return resultEc;
         }
 
-        //En el caso que la ecuacion este mal escrita entra esta funcion, verifica cual fue el error y pregunta al usuario si conservar
-        //la ecuacion con esos cambios o pide ingresar de nuevo la misma
+
         public static string veriFinal(string ec, bool contadores, bool verifNeg, bool verifDivPorCero)             
         {
 
@@ -464,7 +458,7 @@ namespace ProyectoGlobal
 
         }
 
-        //Funcion para no meter la recursion dentro de un bucle en la funcion "veriFinal", porque lleva a errores
+
         public static string verifCondicion(string car, string result, string ec)
         {
 
@@ -491,8 +485,7 @@ namespace ProyectoGlobal
 
         }
 
-        //Verifica que en la ecuacion no haya una division por 0, si ese es el caso lanza un error
-        public static bool veriDivPorCero(string ec)                            
+        public static bool veriDivPorCero(string ec)                            //<---ERROR de indice fuera de rango, arreglar
         {
             char[] mis_num = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             char[] mis_numCero = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
@@ -886,15 +879,21 @@ namespace ProyectoGlobal
                     resultadoOperacion = numeroAnterior - numeroSiguiente;
                     break;
             }
-            // desde 0 hasta el principio de la operacion, el resultado operacion y lo que de la operacion
+            String devolverResultado = resultadoOperacion.ToString();
 
+            if (devolverResultado[0] == '-')
+            {
+                devolverResultado =  "n" + devolverResultado.Substring(1);
+            }
+            
+            // desde 0 hasta el principio de la operacion, el resultado operacion y lo que de la operacion
             if (posicionOperacionActual - numerosAntes == 0)
             {
-                operacionRealizada = resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 1);
+                operacionRealizada = devolverResultado + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 1);
             }
             else
             {
-                operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + resultadoOperacion + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2);
+                operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + devolverResultado + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2);
             }
 
             return operacionRealizada;
