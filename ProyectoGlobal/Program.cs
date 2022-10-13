@@ -789,7 +789,16 @@ namespace ProyectoGlobal
                         return Convert.ToString(resultadoOperacion);
                         break;
                     case 1:
-                        resultadoOperacion = numeroAnterior / numeroSiguiente;
+                        if (numeroSiguiente == 0)
+                        {
+                            return "NO SE PUEDE DIVIDIR POR 0";
+
+                        }
+                        else
+                        {
+                            resultadoOperacion = numeroAnterior / numeroSiguiente;
+                            break;
+                        }
                         return Convert.ToString(resultadoOperacion);
                         break;
                     case 2:
@@ -830,8 +839,17 @@ namespace ProyectoGlobal
                     resultadoOperacion = numeroAnterior * numeroSiguiente;
                     break;
                 case 1:
-                    resultadoOperacion = numeroAnterior / numeroSiguiente;
-                    break;
+                    if(numeroSiguiente == 0)
+                    {
+                        return "NO SE PUEDE DIVIDIR POR 0";
+                        break;
+                    }
+                    else
+                    {
+                        resultadoOperacion = numeroAnterior / numeroSiguiente;
+                        break;
+                    }
+                    
                 case 2:
                     resultadoOperacion = numeroAnterior + numeroSiguiente;
                     break;
@@ -877,7 +895,16 @@ namespace ProyectoGlobal
 
                         break;
                     case 1:
-                        resultadoOperacion = numeroAnterior / numeroSiguiente;
+                        if (numeroSiguiente == 0)
+                        {
+                            return "NO SE PUEDE DIVIDIR POR 0";
+                            
+                        }
+                        else
+                        {
+                            resultadoOperacion = numeroAnterior / numeroSiguiente;
+                            break;
+                        }
 
                         break;
                     case 2:
