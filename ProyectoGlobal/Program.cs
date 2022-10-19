@@ -651,24 +651,38 @@ namespace ProyectoGlobal
             
             for (int j = 0; j < 4; j++)
             {
-                subEcuacion = realizarEcSub(subEcuacion, j);
-                //Console.WriteLine(subEcuacion + " subEcuacion");
+                if (j < 2)
+                {
+                    subEcuacion = realizarEcSub(subEcuacion, j);
+                    //Console.WriteLine(subEcuacion + " subEcuacion");
+                }
+                else
+                {
+                    subEcuacion = realizarEcSub(subEcuacion, 4);
+                    //Console.WriteLine(subEcuacion + " subEcuacion");
+                }
+               
 
             }
-            //Console.WriteLine(subEcuacion + " subEcuacion");
+            //Console.WriteLine(subEcuacion + " subEcuacion TODAS OPERACIONES");
             return subEcuacion;
         }
 
 
         public static string realizarEcSub(string subEcuacion, int numeroOP)
         {
+            bool sumaResta = false;
+            if(numeroOP == 4)
+            {
+                sumaResta = true;
+            }
             obtenerDatosUltOp(subEcuacion);
             int indexOpFinal = subEcuacion.Length - numAntesOperacionFinal;
             int finalEcuacion = subEcuacion.Length - 1;
             string resultado, operacionRealizada, resultadoFinal;
             int posicionOperacionActual = 0;
             bool operacionEncontrada = false;
-            char[] operacion = { '*', '/', '+', '-' };
+            char[] operacion = { '*', '/', '+', '-', '?' };
 
 
             //Contador de numeros antes y despues de la operacion
@@ -696,9 +710,18 @@ namespace ProyectoGlobal
 
 
                 }
-                else if (subEcuacion[i] == operacion[numeroOP] && !operacionEncontrada) //Si el caracter es igual a la operacion con la que se esta trabajando
+                else if ((subEcuacion[i] == operacion[numeroOP] && !operacionEncontrada) || (sumaResta && (subEcuacion[i] == '+' || subEcuacion[i] == '-') && !operacionEncontrada)) //Si el caracter es igual a la operacion con la que se esta trabajando
                 {
-                    
+                    if (sumaResta)
+                    {
+                        if (subEcuacion[i] == '+')
+                        {
+                            numeroOP = 2;
+                        }else if (subEcuacion[i] == '-')
+                        {
+                            numeroOP = 3;
+                        }
+                    }
                     posicionOperacionActual = i; //Guardar la posicion de la operacion
                     operacionEncontrada = true;  //Marcar la operacion como encontrada
                     numerosAntes = contadorNumeros;
@@ -782,6 +805,7 @@ namespace ProyectoGlobal
 
                 String numeroSiguientes = subEcuacion.Substring(posicionOperacionActual + 1);
                 float numeroSiguiente = buscarNegConvFloat(numeroSiguientes);
+                //Console.WriteLine(numeroSiguiente + " NUM SIGUIENTE");
 
                 float resultadoOperacion = 0;
 
@@ -845,10 +869,11 @@ namespace ProyectoGlobal
         {
             String numeroAnteriors = subEcuacion.Substring(posicionOperacionActual - numerosAntes, numerosAntes);
             float numeroAnterior = buscarNegConvFloat(numeroAnteriors);
-            //Console.WriteLine(numeroAnterior + " NUMERO NEGATIVO");
+            //Console.WriteLine(numeroAnterior + " NUM");
 
             String numeroSiguientes = subEcuacion.Substring(posicionOperacionActual + 1, contadorNumeros);
             float numeroSiguiente = buscarNegConvFloat(numeroSiguientes);
+            //Console.WriteLine(numeroSiguiente + " NUM SIGUIENTE");
 
             float resultadoOperacion = 0;
 
@@ -881,20 +906,29 @@ namespace ProyectoGlobal
             }
             String devolverResultado = resultadoOperacion.ToString();
 
+
             if (devolverResultado[0] == '-')
             {
                 devolverResultado =  "n" + devolverResultado.Substring(1);
             }
-            
+
+
+
             // desde 0 hasta el principio de la operacion, el resultado operacion y lo que de la operacion
             if (posicionOperacionActual - numerosAntes == 0)
             {
                 operacionRealizada = devolverResultado + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 1);
+
             }
             else
             {
-                operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + devolverResultado + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2);
+                //Console.WriteLine(subEcuacion.Substring(0, posicionOperacionActual - numerosAntes - 1) + " ESTO ESTA ANTES");
+                //Console.WriteLine(subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 2) + " ESTO ESTA DESPUES");
+                operacionRealizada = subEcuacion.Substring(0, posicionOperacionActual - numerosAntes) + devolverResultado + subEcuacion.Substring(posicionOperacionActual + contadorNumeros + 1);
+
             }
+
+            
 
             return operacionRealizada;
         }
@@ -907,7 +941,7 @@ namespace ProyectoGlobal
         {
             try
             {
-                //Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR UWU");
+                //Console.WriteLine(subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes) + "nUMERO ANTERIOR");
                 String numeroAnteriors = subEcuacion.Substring(indexOpFinal - numerosAntes, numerosAntes);
                 float numeroAnterior = buscarNegConvFloat(numeroAnteriors);
 
@@ -1042,4 +1076,7 @@ namespace ProyectoGlobal
 
 
     }
+
+
+
 }
