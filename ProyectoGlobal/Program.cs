@@ -22,7 +22,7 @@ namespace ProyectoGlobal
             
 
             String ecuacion = verifEc();
-            Console.WriteLine("Termine: " + ecuacion);
+            //Console.WriteLine("Termine: " + ecuacion);
 
             String resultado = hacerCalculo(ecuacion);
             Console.WriteLine("Resultado de la operacion: "+resultadoNegFinal(resultado));
@@ -64,7 +64,7 @@ namespace ProyectoGlobal
 
                 }
             }
-            Console.WriteLine("ASI QUEDA EN VERIF CARACTERES: " + ec_terminada);
+            //Console.WriteLine("ASI QUEDA EN VERIF CARACTERES: " + ec_terminada);
 
             bool verifPara;
             bool verifNeg;
@@ -198,8 +198,8 @@ namespace ProyectoGlobal
 
             }
 
-            Console.WriteLine("contA = " + contA + " --- contB = " + contB);             //<---TRAZA 
-            Console.WriteLine("ASI EN VERIFICACION PARENTESIS: " + resultadoEc);
+            //Console.WriteLine("contA = " + contA + " --- contB = " + contB);             //<---TRAZA 
+            //Console.WriteLine("ASI EN VERIFICACION PARENTESIS: " + resultadoEc);
 
             return resultadoEc;
 
@@ -342,7 +342,7 @@ namespace ProyectoGlobal
 
             }
 
-            Console.WriteLine(Environment.NewLine + "ASI QUEDA EN VERIF NUMERO NEGATIVO: " + resultadoEc);
+            //Console.WriteLine(Environment.NewLine + "ASI QUEDA EN VERIF NUMERO NEGATIVO: " + resultadoEc);
 
             return resultadoEc;
         }
@@ -407,7 +407,7 @@ namespace ProyectoGlobal
             }
 
 
-            Console.WriteLine(Environment.NewLine + "ASI QUEDA EN VERIF OPERACIONES: " + resultEc);
+            //Console.WriteLine(Environment.NewLine + "ASI QUEDA EN VERIF OPERACIONES: " + resultEc);
             return resultEc;
         }
 
@@ -420,14 +420,14 @@ namespace ProyectoGlobal
 
             if (contadores == true)
             {
-                Console.WriteLine("FALTA COLOCAR APRENTESIS!!");
+                Console.WriteLine("FALTA COLOCAR PARENTESIS!!");
                 Console.WriteLine("Intente de nuevo");
                 ec = verifEc();
                 result = ec;
             }
             else if (verifNeg == true)
             {
-                Console.WriteLine("Hay aprentesis que faltan en numeros negativos y van a ser agregados");
+                Console.WriteLine("Hay parentesis que faltan en numeros negativos y van a ser agregados");
                 Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
                 Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
 
@@ -509,7 +509,7 @@ namespace ProyectoGlobal
                         return true;
                     }
                 }
-                else if (ec[i] == '0' && i == indexFueraDeRango)
+                else if (ec[i] == '0' && i == indexFueraDeRango && i > 0)
                 {
                     if (ec[i - 1] == '/')
                     {
