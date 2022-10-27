@@ -51,6 +51,13 @@ namespace ProyectoGlobal
             char[] mis_letras = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', '(', ')' };
             char[] letras;
 
+            if(ecuacion == "")
+            {
+                Console.WriteLine("No escribio nada");
+                Console.WriteLine("Intente de nuevo");
+                ecuacion = verifEc();
+            }
+
             letras = ecuacion.ToCharArray();
 
             foreach (char let in letras)
@@ -69,6 +76,7 @@ namespace ProyectoGlobal
             bool verifPara;
             bool verifNeg;
             bool verifDivPorCero;
+            bool verifOpEntreParentesisx;
 
             //verifica parentesis
             ec_terminada = verifParentesis(ec_terminada);
@@ -84,13 +92,15 @@ namespace ProyectoGlobal
             ec_terminada = veriNumNegativo(ec_terminada);
             verifNeg = entraVerifNegativo(ec_parentesis, ec_terminada);
 
+            verifOpEntreParentesisx = verifErrorSintaxisParentesis(ec_terminada);
+
             
             //verifica que no haya divisiones por 0
             verifDivPorCero = veriDivPorCero(ec_terminada);
 
-            if (ecuacion != ec_terminada || verifPara == true || verifDivPorCero == true)
+            if (ecuacion != ec_terminada || verifPara == true || verifDivPorCero == true || verifOpEntreParentesisx == true)
             {
-                return ec_terminada = veriFinal(ec_terminada, verifPara, verifNeg, verifDivPorCero);
+                return ec_terminada = veriFinal(ec_terminada, verifPara, verifNeg, verifDivPorCero, verifOpEntreParentesisx);
             }
 
             return ec_terminada;
@@ -347,6 +357,34 @@ namespace ProyectoGlobal
             return resultadoEc;
         }
 
+        public static bool verifErrorSintaxisParentesis(string ec)
+        {
+
+            char[] mis_verif = { '+', '-', '*', '/' };
+
+            for (int i = 0; i < ec.Length; i++)
+            {
+                if (ec[i] == ')' && ec[i + 1] == '(')
+                {
+                    return true;
+
+                }
+                else if(ec[i] == '(' && ec[i + 1] == ')')
+                {
+                    return true;
+                }
+                else if(ec[i] == '(' &&  mis_verif.Contains(ec[i + 1]) && ec[i + 2] == ')')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+
+
         public static string veriOperaciones(string ec)
         {
 
@@ -412,11 +450,19 @@ namespace ProyectoGlobal
         }
 
 
-        public static string veriFinal(string ec, bool contadores, bool verifNeg, bool verifDivPorCero)             
+        public static string veriFinal(string ec, bool contadores, bool verifNeg, bool verifDivPorCero, bool verifOpEntrePar)             
         {
 
             string car;
             string result = null;
+
+            if (ec == "")
+            {
+                Console.WriteLine("No escribio nada");
+                Console.WriteLine("Intente de nuevo");
+                ec = verifEc();
+                result = ec;
+            }
 
             if (contadores == true)
             {
@@ -425,15 +471,12 @@ namespace ProyectoGlobal
                 ec = verifEc();
                 result = ec;
             }
-            else if (verifNeg == true)
+            else if (verifOpEntrePar == true)
             {
-                Console.WriteLine("Hay parentesis que faltan en numeros negativos y van a ser agregados");
-                Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
-                Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
-
-                car = Console.ReadLine().ToUpper();
-
-                result = verifCondicion(car, result, ec);
+                Console.WriteLine("Hay un error en el ingreso de parentesis!!");
+                Console.WriteLine("Intente de nuevo");
+                ec = verifEc();
+                result = ec;
             }
             else if (verifDivPorCero)
             {
@@ -442,9 +485,21 @@ namespace ProyectoGlobal
                 ec = verifEc();
                 result = ec;
             }
+            else if (verifNeg == true)
+            {
+
+                Console.WriteLine("Hay parentesis que faltan en numeros negativos y van a ser agregados");
+                Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
+                Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
+
+                car = Console.ReadLine().ToUpper();
+
+                result = verifCondicion(car, result, ec);
+
+            }
             else
             {
-                Console.WriteLine("Hay caracteres que no pertenecen a la ecuacion o estan mal colocados, van a ser eliminados o cambiados");
+                Console.WriteLine("Hay caracteres que no pertenecen, faltan o estan mal colocados en la ecuacion, van a ser eliminados o cambiados");
                 Console.WriteLine(Environment.NewLine + "La ecuacion quedará asi: " + ec + Environment.NewLine);
                 Console.WriteLine("Esta de acuerdo? Y = SI, N = NO");
 
